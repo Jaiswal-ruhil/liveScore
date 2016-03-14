@@ -1,0 +1,30 @@
+
+{
+  "date": "DATE",
+  "time": "TIME",
+  "venue": "STRING",
+  "description": "STRING/OBJECT",
+
+  "game_type": "STRING",
+  "attributes": {
+    "overs": "NUMBER",
+    "active_team": "INDEX NUMBER FOR team_list",
+    "innings": "NUMBER",
+    "team_list" : [
+      {
+        "name": "STRING",
+        "player_list": [ "STRINGS" ],
+        "score": "NUMBER/OBJECT",
+        "wickets": "NUMBER",
+        "ball": "FLOAT"
+      },
+      {
+        "name": "STRING",
+        "player_list": [ "STRINGS" ],
+        "score": "NUMBER/OBJECT",
+        "wickets": "NUMBER",
+        "ball": "FLOAT"
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+
+{
+  "date": "DATE",
+  "time": "TIME",
+  "venue": "STRING",
+  "description": "STRING/OBJECT",
+
+  "game_type": "STRING",
+  "attributes": {
+    "overs": "NUMBER",
+    "teamsList" : [
+      {
+        "name": "STRING",
+        "playerList": [ "STRINGS" ]
+      },
+      {
+        "name": "STRING",
+        "playerList": [ "STRINGS" ]
+      }
+    ]
+  }
+}

@@ -1,5 +1,6 @@
 
 {
+  "game_id": "Number",
   "batting_team": "STRING",
   "innings": "NUMBER",
   "overs_completed": "FLOAT",

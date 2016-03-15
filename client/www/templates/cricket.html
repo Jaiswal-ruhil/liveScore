@@ -7,31 +7,44 @@
         <div ng-show="showData">
             <ion-list>
             <div class="card stable-bg">
+               <div class="item">
+                   Match Details: {{match.date + " " + match.time}} at {{match.venue}}
+               </div>
+               <div class="item item-divider item-text-wrap">
+                   No of Overs: {{match.overs}}
+
+                   Innings: {{match.innings}}
+               </div>
+               <div class="item item-divider">
+                   Batting Team: {{match.team_list[match.active_team].name}}
+               </div>
+            </div>
+            <div class="card stable-bg">
     	       <div class="item">
-    	           {{match.team1.title}}
+    	           Team Name: {{match.team_list[0].name}}
     	       </div>
     	       <div class="item item-divider item-text-wrap">
-    	           {{match.team1.wickets}}
-    	           {{match.team1.overs}}
-    	           {{match.team1.runs}}
+    	           No of Wickets Taken: {{match.team_list[0].wickets}}
+
+    	           No of Balls Played: {{match.team_list[0].ball}}
     	       </div>
         	   <div class="item item-divider">
-        	       {{match.team1.status}}
+                   Team Score: {{match.team_list[0].score}}
         	   </div>
         	</div>
         	<div class="card stable-bg">
-        	    <div class="item">
-        	       {{match.team2.title}}
-        	    </div>
-        	    <div class="item item-divider item-text-wrap">
-        	       {{match.team2.wickets}}
-        	       {{match.team2.overs}}
-        	       {{match.team2.runs}}
-        	    </div>
-        	    <div class="item item-divider">
-        	       {{match.team2.status}}
-        	    </div>
-        	</div>
+               <div class="item">
+                   Team Name: {{match.team_list[1].name}}
+               </div>
+               <div class="item item-divider item-text-wrap">
+                   No of Wickets Taken: {{match.team_list[1].wickets}}
+
+                   No of Balls Played: {{match.team_list[1].ball}}
+               </div>
+               <div class="item item-divider">
+                   Team Score: {{match.team_list[1].score}}
+               </div>
+            </div>
             </ion-list>
         </div>
         <div ng-hide="showData">

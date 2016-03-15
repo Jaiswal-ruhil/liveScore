@@ -2,7 +2,7 @@
 {
   "game_id": "Number",
   "team_name": "STRING",
-  "increment_score": "NUMBER/OBJECT",
+  "increment_score_player": "NUMBER/OBJECT",
+  "increment_score_extra": "NUMBER/OBJECT",
   "increment_wicket": "NUMBER",
-  "increment_ball": "NUMBER/BOOL"
 }

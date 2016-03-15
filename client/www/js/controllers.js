@@ -38,7 +38,7 @@ angular.module('starter.controllers', [])
     $scope.login();
   };
   $scope.login = function(){
-    var serverUrl = 'http://0.0.0.0:5000/validateLogin';
+    var serverUrl = 'http://localhost:5000/validateLogin';
     var payload = {
       'username': $scope.loginData.username,
       'password': $scope.loginData.password
@@ -56,19 +56,38 @@ angular.module('starter.controllers', [])
         }
       }).error(function(user, error) {
       // The login failed. Check error to see why.
-        $scope.showAlert('No Active Connection', 'Connection to the server is servered')
+        $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
       });
   };
   $scope.logout = function(){
-    Parse.User.logOut();
-    $scope.newUser = {};
-    $scope.loginSucess = false;
     $scope.modal.show();
     $scope.loginData = {};
   }
 })
 
-.controller('RegisterMatchCtrl', function($scope) {
+.controller('RegisterMatchCtrl', function($scope, $http, $ionicPopup, ionicMaterialInk) {
+  $scope.sport_list = ['cricket', 'basketball', 'football'];
+  $scope.match_details = {
+    "attributes": {"teamsList": [{}, {}]}
+  };
+  $scope.submitData = function(){
+    var serverUrl = "http://localhost:5000/newMatch"
+    $http.post(serverUrl, $scope.match_details).success(function(response){
+      console.log($scope.match_details);
+    }).error(function(response){
+      $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
+    })
+  }
+  $scope.showAlert = function(title, msg) {
+    var alertPopup = $ionicPopup.alert({
+      title: title,
+      template: msg
+    });
+    $timeout(function() {
+      // Ionic material animation
+      ionicMaterialInk.displayEffect()
+    }, 500);
+  };
 })
 
 .controller('UpdateScoreBoardCtrl', function($scope) {

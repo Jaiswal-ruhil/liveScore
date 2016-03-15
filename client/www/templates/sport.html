@@ -1,0 +1,14 @@
+<ion-view view-title="REVA Sports List">
+  <ion-content>
+    <ion-list>
+      <ion-item ng-repeat="sport in sport_list" ng-href="#/app/sport/{{sport.url}}">
+  			  <div class="card"> 
+          <ion-delete-button class="ion-minus-circled"></ion-delete-button>
+            <div class="item item-text-wrap">
+			         <center>{{sport.title}}</center>
+  			     </div>
+           </div>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

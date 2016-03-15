@@ -1,0 +1,51 @@
+<ion-view view-title="Cricket">
+    <ion-content>
+        <ion-refresher
+            pulling-text="Pull to refresh..."
+            on-refresh="refreshMatchDetails(true)">
+        </ion-refresher>
+        <div ng-show="showData">
+            <ion-list>
+            <div class="card stable-bg">
+    	       <div class="item">
+    	           {{match.team1.title}}
+    	       </div>
+    	       <div class="item item-divider item-text-wrap">
+    	           {{match.team1.wickets}}
+    	           {{match.team1.overs}}
+    	           {{match.team1.runs}}
+    	       </div>
+        	   <div class="item item-divider">
+        	       {{match.team1.status}}
+        	   </div>
+        	</div>
+        	<div class="card stable-bg">
+        	    <div class="item">
+        	       {{match.team2.title}}
+        	    </div>
+        	    <div class="item item-divider item-text-wrap">
+        	       {{match.team2.wickets}}
+        	       {{match.team2.overs}}
+        	       {{match.team2.runs}}
+        	    </div>
+        	    <div class="item item-divider">
+        	       {{match.team2.status}}
+        	    </div>
+        	</div>
+            </ion-list>
+        </div>
+        <div ng-hide="showData">
+            <button class="button button-full button-balanced">
+                No Data is Available
+            </button>
+        </div>
+	</ion-content>
+	<div class="bar bar-footer bar-dark">
+	    <div class="title">REVA Live Scores</div> 
+	       <div class="buttons buttons-right"> 
+	        <button class="button button-royal bold button-fab" ng-click="refreshMatchDetails(true)"> 
+	            <i class="icon ion-loop light"></i> 
+	       </button> 
+       </div>
+	</div>
+</ion-view>

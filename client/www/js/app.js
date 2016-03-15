@@ -28,27 +28,39 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material'])
     .state('app', {
     url: '/app',
     abstract: true,
-    templateUrl: 'templates/menu.html',
-    controller: 'AppCtrl'
+    templateUrl: 'templates/menu.html'
   })
 
-  .state('app.search', {
-    url: '/search',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/search.html'
-      }
-    }
-  })
-
-  .state('app.browse', {
-      url: '/browse',
+ .state('app.member', {
+      url: '/member',
       views: {
         'menuContent': {
-          templateUrl: 'templates/browse.html'
+          templateUrl: 'templates/member.html',
+          controller: 'MemberCtrl'
         }
       }
     })
+
+    .state('app.member.update_scoreboard', {
+      url: '/update_scoreboard',
+      views: {
+        'update_scoreboard': {
+          templateUrl: 'templates/update_scoreboard.html',
+          controller: 'UpdateScoreBoardCtrl'
+        }
+      }
+    })
+
+    .state('app.member.register_match', {
+      url: '/register_match',
+      views: {
+        'register_match': {
+          templateUrl: 'templates/register_match.html',
+          controller: 'RegisterMatchCtrl'
+        }
+      }
+    })
+
     .state('app.sport', {
       url: '/sport',
       views: {

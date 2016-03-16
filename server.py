@@ -20,6 +20,43 @@ class Server():
 
         self.app_url = configuration['app_url']
         self.database = Database(configuration['database_uri'])
+        #fill registry with matches
+        #cron job to update registry
+        #unique id is date time  YYYYMMDDHHMM
+
+
+    @cherrypy.expose
+    def login(self):
+        """ gets the user login info and return as valid or not """
+
+        import hashlib
+        login_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        # check if user exists
+        user_record = self.database.get_data( 'login', { 'username': login_info['username'] } )
+        if user_record is None: # user not found
+            return json.dumps( {"status": "failed", "message": "user not found in the database"} )
+        else:
+            entered_password = hashlib.md5( login_info['password'].encode() ).hexdigest()
+            if user_record['password'] != entered_password:
+                return json.dumps( {"status": "failed", "message": "password incorrect"} )
+        return json.dumps( {"status": "sucess", "message": "valid"} )
+        # if user sexists get the pass and hash it
+        # compare the hash with one in database
+
+
+    #@cherrypy.expose  call manually for now
+    def signup(self, username, password):
+        """ gets the user login info and return as valid or not """
+
+        import hashlib
+        # check if user exists
+        user_record = self.database.get_data( 'login', { 'username': username } )
+        if user_record is None: # user not found
+            password = hashlib.md5( password.encode() ).hexdigest()
+            self.database.insert( "login", { "username": username, "password": password } )
+            return {"status": "sucess", "message": "user created"}
+        else:
+            return {"status": "failed", "message": "user already exists"}
 
 
     @cherrypy.expose
@@ -54,10 +91,10 @@ class Server():
 
 
     @cherrypy.expose
-    def get_game_list(self):
+    def get_game_list(self, game_type):
         """ Return the count of no of comics """
 
-        #from the game registry
+        #from the game registry for depecific date
         #return a map for game and their perticulars with their game id
 
 

@@ -32,6 +32,12 @@ class Database():
         return self.db[collection].insert(data)
 
 
+    def get_data(self, collection, querry):
+        """ from the collection it returns the data"""
+
+        return self.db[collection].find_one( querry, { '_id': 0 } )
+
+
     def get_game(self, game_id):
         """ Find comic details for specified comic id """
 

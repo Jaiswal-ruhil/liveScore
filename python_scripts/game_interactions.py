@@ -1,9 +1,9 @@
-def __cricket_score_board__( database, game_id, game_data ):
+def __cricket_score_board__( database, game_id_database, game_data ):
     """ fetch the data from database using game id and return required data"""
 
     current_score_board = {}
     if game_data is None:
-        game_data = database.get_game( 'CRICKET', game_id )
+        game_data = database.get_game( 'CRICKET', game_id_database )
     game = game_data['attributes']
 
     current_score_board['batting_team'] =  game['team_list'][game['active_team']]['name']
@@ -22,10 +22,10 @@ def __register_cricket_board__( database, registeration_data ):
     return database.insert( 'CRICKET', registeration_data )
 
 
-def __update_cricket_board__( database, game_id, update_info ):
+def __update_cricket_board__( database, game_id_database, update_info ):
     """ update the cricket game with the new info """
 
-    game_info = database.get_game( 'CRICKET', game_id )
+    game_info = database.get_game( 'CRICKET', game_id_database )
     team = ""
     for team in game_info['teamsList']:
         if team['name'] == update_info['team_name']:
@@ -33,7 +33,7 @@ def __update_cricket_board__( database, game_id, update_info ):
     team['score'] = team['score']+update_info['increment_score'] if ("score" in team) else 0
     team['wicket'] = team['wicket']+update_info['increment_wicket'] if ("wicket" in team) else 0
     team['ball'] = team['ball']+update_info['increment_ball'] if ("ball" in team) else 0
-    return database.update( 'CRICKET', game_id, game_data )
+    return database.update( 'CRICKET', game_id_database, game_data )
 
 
 socre_board = {

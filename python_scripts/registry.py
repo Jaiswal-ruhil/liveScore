@@ -1,27 +1,18 @@
-
 #! /usr/bin/env python3
 
-from python_scripts import game_interactions
-
-class Game():
+class Registry():
     """
     config the object functions according to the game
     """
 
+    registry_list = None
     database = None
-    database_id = None
-    game_type = None
-    game_data = None
-    enrol = None
 
-    def __init__( self, game_type, database, enrol ):
+    def __init__( self, database ):
         """ Initialization """
         """ registers the game in the database  and genereates the database id """
 
-        self.game_type = game_type
         self.database = database
-        self.enrol = enrol
-        self.update = GameInteractions.update[game_type]
 
 
     def register( self, registeration_data ):

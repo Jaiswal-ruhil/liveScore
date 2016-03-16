@@ -5,6 +5,7 @@ import configparser
 import json
 
 from python_scripts.database import Database
+from python_scripts.registry import Registry
 from python_scripts.game import Game
 
 class Server():
@@ -13,13 +14,15 @@ class Server():
     '''
 
     database = None
-    game_registry = []
+    registry = None
 
     def __init__(self, configuration):
         """ Initialization the URL of the comic and transcript """
 
         self.app_url = configuration['app_url']
         self.database = Database(configuration['database_uri'])
+        self.registry = Registry()
+        self.registry.propogate();
         #fill registry with matches
         #cron job to update registry
         #unique id is date time  YYYYMMDDHHMM
@@ -40,8 +43,6 @@ class Server():
             if user_record['password'] != entered_password:
                 return json.dumps( {"status": "failed", "message": "password incorrect"} )
         return json.dumps( {"status": "sucess", "message": "valid"} )
-        # if user sexists get the pass and hash it
-        # compare the hash with one in database
 
 
     #@cherrypy.expose  call manually for now
@@ -60,42 +61,44 @@ class Server():
 
 
     @cherrypy.expose
-    def register_game(self, game_info):
+    def register_game(self):
         """ Returns the GameId for the registered game
         all requests come in using the gameId refer the README for the json structure"""
 
-        new_game = Game( game_info.game_type, self.database )
-        new_game.register( game_info )
-        game_id = len( game_registry )
-        self.game_registry.append( new_game )
-        return json.dumps( { code: "sucess", game_id: game_id } )
+        game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        new_game = Game( game_info.game_type, self.database, self.registry );
+        registeration_status = new_game.register( game_info ) #registers in the data base
+        return json.dumps( registeration_status )
 
 
     @cherrypy.expose
-    def update_game(self, game_id, game_data):
+    def update_game(self):
         """ Return the count of no of comics """
 
-        Game = self.game_registry[game_id]
-        result = Game.update( game_data )
-        #TODO: define action on faliure
-        return json.dumps( { code: result, game_id: game_id  } )
+        game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        Game = self.registry.get_game( game_info['game_id'] )
+        result = Game.update( game_info['game_data'] )
+        return json.dumps( result )
 
 
     @cherrypy.expose
     def score_board(self, game_id ):
         """ Return the count of no of comics """
 
-        Game = self.game_registry[game_id]
-        Game.score_board()
-        #return the sucess or failiure with appropiate data
+        game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        Game = self.registry.get_game( game_info['game_id'] )
+        result = Game.score_board()
+        return json.dumps( result )
 
 
     @cherrypy.expose
     def get_game_list(self, game_type):
         """ Return the count of no of comics """
 
-        #from the game registry for depecific date
-        #return a map for game and their perticulars with their game id
+        self.registery.propogate()
+        game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        LIST = self.registry.get_game_list( game_info.game_type )
+        return json.dumps( { "status": "sucess", "list": LIST } )
 
 
 

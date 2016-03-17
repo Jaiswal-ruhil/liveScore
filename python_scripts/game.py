@@ -20,16 +20,17 @@ class Game():
 
         self.game_type = game_type
         self.database = database
-        self.enrol = enrol
         self.update = GameInteractions.update[game_type]
 
 
     def register( self, registeration_data ):
         """ stores the registeration data on the database """
+
+        import datetimes
+        registeration_data['unique_id'] = '{:%Y%m%d%H%M%S%s}'.format(datetime.datetime.now())
         self.database_id = self.database.insert( self.game_type, registeration_data )
         if self.database_id is None:
             return { 'status' : 'failed', 'message': 'could not make a entry in data base'}
-        self.enrol( registeration_data )
         return { 'status' : 'sucess', 'message': 'game is registered in database'}
 
 
@@ -47,6 +48,6 @@ class Game():
 
        self.database_id = self.update[game_type]( self.Database, game_data )
        data = self.database.get_data( { '_id': database_id }, { "_id": 0 } )
-        if self.database_id is None:
-            return { 'status' : 'failed', 'message': 'could not make a entry in data base'}
-        return { 'status' : 'sucess', 'message': 'game is registered in database', 'data': data }
+       if self.database_id is None:
+           return { 'status' : 'failed', 'message': 'could not make a entry in data base'}
+       return { 'status' : 'sucess', 'message': 'game is registered in database', 'data': data }

@@ -21,10 +21,8 @@ class Server():
 
         self.app_url = configuration['app_url']
         self.database = Database(configuration['database_uri'])
-        self.registry = Registry()
-        self.registry.propogate();
-        #fill registry with matches
-        #cron job to update registry
+        self.registry = Registry( self.database )
+        self.registry.populate();
         #unique id is date time  YYYYMMDDHHMM
 
 
@@ -95,10 +93,15 @@ class Server():
     def get_game_list(self, game_type):
         """ Return the count of no of comics """
 
-        self.registery.propogate()
+        import datetime
+
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        LIST = self.registry.get_game_list( game_info.game_type )
-        return json.dumps( { "status": "sucess", "list": LIST } )
+        self.registry.populate()
+        current_date_day = "{:%d}".format(datetime.date.today())
+        current_date_month = "{:%m}".format(datetime.date.today())
+        current_date_year = "{:%Y}".format(datetime.date.today())
+        game_list = self.registry.get_list( game_info['game_type'], current_date_day, current_date_month, current_date_year ) # will show for a day minus too
+        return json.dumps( game_list )
 
 
 

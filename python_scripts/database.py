@@ -32,10 +32,12 @@ class Database():
         return self.db[collection].insert(data)
 
 
-    def get_data(self, collection, querry):
+    def get_data(self, collection, querry, projection=None):
         """ from the collection it returns the data"""
 
-        return self.db[collection].find_one( querry, { '_id': 0 } )
+        if projection is None:
+            projection = { '_id': 0 }
+        return self.db[collection].find_one( querry, projection )
 
 
     def get_game(self, game_id):

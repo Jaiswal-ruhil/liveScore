@@ -1,9 +1,11 @@
 
 {
+  "uniquer_id": "number",
   "date": "DATE",
   "time": "TIME",
   "venue": "STRING",
   "description": "STRING/OBJECT",
+  "team_list": [ "names" ],
 
   "game_type": "STRING",
   "attributes": {

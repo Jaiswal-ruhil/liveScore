@@ -15,20 +15,22 @@ class Server():
 
     database = None
     registry = None
+    app_url = None
 
     def __init__(self, configuration):
-        """ Initialization the URL of the comic and transcript """
+        """ Initialization the URL and the database, registry handler objects """
 
         self.app_url = configuration['app_url']
         self.database = Database(configuration['database_uri'])
         self.registry = Registry( self.database )
         self.registry.populate();
-        #unique id is date time  YYYYMMDDHHMM
 
 
     @cherrypy.expose
     def login(self):
-        """ gets the user login info and return as valid or not """
+        """ Gets the user login info and returns if valid or not.
+        Required json: resources/json/login.json
+        Returned json: resources/json/common_response.json """
 
         import hashlib
         login_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
@@ -44,14 +46,18 @@ class Server():
 
 
     #@cherrypy.expose  call manually for now
-    def signup(self, username, password):
-        """ gets the user login info and return as valid or not """
+    def signup(self):
+        """ Gets the user login info and added it to the database. If user
+        exists returns the required message
+        Required json: resources/json/signup.json
+        Returned json: resources/json/common_response.json """
 
         import hashlib
+        login_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
         # check if user exists
-        user_record = self.database.get_data( 'login', { 'username': username } )
+        user_record = self.database.get_data( 'login', { 'username': login_info['username'] } )
         if user_record is None: # user not found
-            password = hashlib.md5( password.encode() ).hexdigest()
+            password = hashlib.md5( login_info['password'].encode() ).hexdigest()
             self.database.insert( "login", { "username": username, "password": password } )
             return {"status": "sucess", "message": "user created"}
         else:
@@ -60,28 +66,37 @@ class Server():
 
     @cherrypy.expose
     def register_game(self):
-        """ Returns the GameId for the registered game
-        all requests come in using the gameId refer the README for the json structure"""
+        """ Returns the if game was sucessfully registered.
+        Required json: resources/json/register.json
+        Returned json: resources/json/common_response.json """
 
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        new_game = Game( game_info.game_type, self.database, self.registry );
+        new_game = Game( game_info['game_type'], self.database, self.registry );
         registeration_status = new_game.register( game_info ) #registers in the data base
-        return json.dumps( registeration_status )
+        if registeration_status is None:
+            return json.dumps({ 'status' : 'failed', 'message': 'could not make a entry in data base'})
+        return json.dumps({ 'status' : 'sucess', 'message': 'game is registered in database'})
 
 
     @cherrypy.expose
     def update_game(self):
-        """ Return the count of no of comics """
+        """ Update the LIVE game score
+        Required json: resources/json/update.json
+        Returned json: resources/json/common_response.json """
 
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
         Game = self.registry.get_game( game_info['game_id'] )
-        result = Game.update( game_info['game_data'] )
-        return json.dumps( result )
+        result = Game.update( game_info )
+        if result is None:
+            return json.dumps( { 'status' : 'failed', 'message': 'could not make a entry in data base'} )
+        return json.dumps( { 'status' : 'sucess', 'message': 'game is updated'} )
 
 
     @cherrypy.expose
-    def score_board(self, game_id ):
-        """ Return the count of no of comics """
+    def score_board(self):
+        """ Return the score to display
+        Required json: resources/json/score_board.json
+        Returned json: resources/json/score_board_response.json """
 
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
         Game = self.registry.get_game( game_info['game_id'] )
@@ -90,17 +105,18 @@ class Server():
 
 
     @cherrypy.expose
-    def get_game_list(self, game_type):
-        """ Return the count of no of comics """
+    def get_game_list(self):
+        """ Return the game list for the day
+        Required json: resources/json/game_list.json
+        Returned json: resources/json/game_list_response.json """
 
         import datetime
-
+        #need to have IST as time zone
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        self.registry.populate()
-        current_date_day = "{:%d}".format(datetime.date.today())
-        current_date_month = "{:%m}".format(datetime.date.today())
-        current_date_year = "{:%Y}".format(datetime.date.today())
-        game_list = self.registry.get_list( game_info['game_type'], current_date_day, current_date_month, current_date_year ) # will show for a day minus too
+        current_day = "{:%d}".format(datetime.date.today())
+        current_month = "{:%m}".format(datetime.date.today())
+        current_year = "{:%Y}".format(datetime.date.today())
+        game_list = self.registry.get_list( game_info['game_type'], current_day, current_month, current_year ) # will show for a day minus too
         return json.dumps( game_list )
 
 

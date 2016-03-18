@@ -27,20 +27,17 @@ class Game():
         """ stores the registeration data on the database """
 
         import datetimes
-        registeration_data['unique_id'] = '{:%Y%m%d%H%M%S%s}'.format(datetime.datetime.now())
-        self.database_id = self.database.insert( self.game_type, registeration_data )
-        if self.database_id is None:
-            return { 'status' : 'failed', 'message': 'could not make a entry in data base'}
-        return { 'status' : 'sucess', 'message': 'game is registered in database'}
+        registeration_data['unique_id'] = '{:%Y%m%d%H%M%S%s}'.format(datetime.datetime.utcnow())
+        registeration_data['teams'] = []
+        for team in registeration_data['attributes']['team_list']:
+            registeration_data['teams'].append( team['name'] )
+        return self.database.insert( self.game_type, registeration_data )
 
 
     def update( self, game_data ):
         """ updates the database with incoming data based on the game """
 
-        self.database_id = self.update[game_type]( self.Database, game_data )
-        if self.database_id is None:
-            return { 'status' : 'failed', 'message': 'could not make a entry in data base'}
-        return { 'status' : 'sucess', 'message': 'game is registered in database'}
+        return self.update[game_type]( self.Database, game_data )
 
 
     def score_board( self ):

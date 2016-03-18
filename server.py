@@ -51,7 +51,7 @@ class Server():
                     "message": "password incorrect"})
         return json.dumps({"status": "sucess", "message": "valid"})
 
-    @cherrypy.expose  call manually for now
+    @cherrypy.expose  # call manually for now
     def signup(self):
         """ Gets the user login info and added it to the database. If user
         exists returns the required message
@@ -67,11 +67,13 @@ class Server():
         if user_record is None:  # user not found
             password = hashlib.md5(login_info['password'].encode()).hexdigest()
             self.database.insert("login", {
-                "username": username, "password": password
+                "username": login_info['username'], "password": password
             })
-            return {"status": "sucess", "message": "user created"}
+            return json.dumps({"status": "sucess", "message": "user created"})
         else:
-            return {"status": "failed", "message": "user already exists"}
+            return json.dumps({
+                "status": "failed",
+                "message": "user already exists"})
 
     @cherrypy.expose
     def register_game(self):
@@ -81,7 +83,7 @@ class Server():
 
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
         new_game = Game(game_info['game_type'], self.database, self.registry)
-        registeration_status = new_game.register(game_info)  #registers in the data base
+        registeration_status = new_game.register(game_info)
         if registeration_status is None:
             return json.dumps({
                 'status': 'failed',
@@ -128,9 +130,10 @@ class Server():
         import datetime
         from pytz import timezone
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        game_type = game_info['game_type']
         time_zone = timezone("Asia/Kolkata")
         current_date = "{:%d %m %Y}".format(datetime.datetime.now(time_zone))
-        game_list = self.registry.get_list(game_info['game_type'], current_date)
+        game_list = self.registry.get_list(game_type, current_date)
         return json.dumps(game_list)
 
 

@@ -113,10 +113,8 @@ class Server():
         import datetime
         #need to have IST as time zone
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        current_day = "{:%d}".format(datetime.date.today())
-        current_month = "{:%m}".format(datetime.date.today())
-        current_year = "{:%Y}".format(datetime.date.today())
-        game_list = self.registry.get_list( game_info['game_type'], current_day, current_month, current_year ) # will show for a day minus too
+        current_date = "{:%d %m %Y}".format(datetime.date.today())
+        game_list = self.registry.get_list( game_info['game_type'], current_date ) # will show for a day minus too
         return json.dumps( game_list )
 
 

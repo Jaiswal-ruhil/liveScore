@@ -11,20 +11,18 @@ class Registry():
     registry_list = None
     database = None
 
-    def __init__( self, database ):
-        """ Initialization """
-        """ registers the game in the database  and genereates the database id """
+    def __init__(self, database):
+        """ Initialization and registeration of
+        the game in the database and genereates the database id """
 
         self.database = database
 
-
-    def populate( self ):
+    def populate(self):
         """ assigns a unique key to the existind game """
 
-        self.database.get_data( 'CRICKET', {} )
+        self.database.get_data('CRICKET', {})
 
-
-    def get_list( self, game_type, date ):
+    def get_list(self, game_type, date):
         """ returns games with ids """
 
         projection = {
@@ -38,7 +36,6 @@ class Registry():
             "teams": 1,
             "attributes": 0
         }
+        list_of_objects = self.database.get_data(game_type, {"date": date}, projection)
 
-        list_of_objects = self.database.get_data( game_type, { "date": date }, projection )
-
-        return { 'objects' : list_of_objects }
+        return {'objects': list_of_objects}

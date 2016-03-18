@@ -27,13 +27,6 @@ class Registry():
 
         projection = {
             "_id": 0,
-            "unique_id": 1,
-            "date": 1,
-            "time": 1,
-            "venue": 1,
-            "description": 1,
-            "game_type": 1,
-            "teams": 1,
             "attributes": 0
         }
         list_of_objects = self.database.get_data(game_type, {"date": date}, projection)

@@ -1,8 +1,66 @@
 <ion-view view-title="Update Scoreboard">
   <ion-content>
   	<div ng-show="loginData.loginSuccess">
-  		<h1>Update Scoreboard</h1>
-  	</div>
+  		<div class="bar bar-header bar-light">
+        <h1 class="title">Select Match List</h1>
+      </div>
+      <form ng-submit="submitData()" name="submitForm">
+      <div class="list">
+        <label class="item item-input item-divider item-select">
+            <div class="item input-label">
+                Match List for Today:
+            </div>
+            <select ng-options="match as match.title for match in matchList track by match.id"  ng-model="score.currentMatch"  ng-change="updateMatch()">
+            </select>
+          </label>
+      </div>
+      <div class="list" ng-show="score.currentMatch">
+        <div class="item card">
+          <div class="item item-divider">
+            Update Score: {{currentMatch.runs + increment.runs}}
+          </div>
+          <div class="item item-text-wrap">
+            <ion-list>
+              <ion-radio ng-model="increment.runs" ng-value="1">1</ion-radio>
+              <ion-radio ng-model="increment.runs" ng-value="2">2</ion-radio>
+              <ion-radio ng-model="increment.runs" ng-value="3">3</ion-radio>
+              <ion-radio ng-model="increment.runs" ng-value="4">4</ion-radio>
+              <ion-radio ng-model="increment.runs" ng-value="6">6</ion-radio>
+            </ion-list>
+          </div>
+        </div>
+        <div class="item card">
+          <div class="item item-divider">
+            Update Extras: {{currentMatch.extras + increment.extras}}
+          </div>
+          <div class="item item-text-wrap row">
+            <div fs-counter value="increment.extras"
+              data-min="0"
+              data-step="1"
+              data-addclass="col"
+              data-editable></div>
+          </div>
+        </div>
+        <div class="item card">
+          <div class="item item-divider">
+            Update Players Out: {{currentMatch.wickets + increment.wickets}}
+          </div>
+          <div class="item item-text-wrap row">
+            <div fs-counter value="increment.wickets"
+              data-min="0"
+              data-step="1"
+              data-addclass="col"
+              data-editable></div>
+          </div>
+        </div>
+  	 </div>
+     <button class="button button-full button-balanced" ng-click="updateScore()" ng-show="score.currentMatch">
+          Submit
+    </button>
+      <button type="button" ng-click="logout()" class="button button-block button-dark">
+          Logout
+      </button>
+    </div>
   	<div ng-hide="loginData.loginSuccess">
     	<button class="button button-full button-balanced" ng-click="openLogin()">
         	Login

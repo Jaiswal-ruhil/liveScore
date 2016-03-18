@@ -125,10 +125,11 @@ class Server():
         Required json: resources/json/game_list.json
         Returned json: resources/json/game_list_response.json """
 
-        #TODO:need to have IST as time zone
         import datetime
+        from pytz import timezone
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        current_date = "{:%d %m %Y}".format(datetime.date.today())
+        time_zone = timezone("Asia/Kolkata")
+        current_date = "{:%d %m %Y}".format(datetime.datetime.now(time_zone))
         game_list = self.registry.get_list(game_info['game_type'], current_date)
         return json.dumps(game_list)
 

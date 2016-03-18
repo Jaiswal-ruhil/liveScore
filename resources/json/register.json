@@ -8,7 +8,7 @@
   "game_type": "STRING",
   "attributes": {
     "overs": "NUMBER",
-    "teamsList" : [
+    "teams_list" : [
       {
         "name": "STRING",
         "playerList": [ "STRINGS" ]

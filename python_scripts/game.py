@@ -20,14 +20,16 @@ class Game():
 
         self.game_type = game_type
         self.database = database
-        self.update = GameInteractions.update[game_type]
+        self.update = game_interactions.update[game_type]
 
     def register(self, registeration_data):
         """ stores the registeration data on the database """
 
-        import datetimes
-        registeration_data['unique_id'] = '{:%Y%m%d%H%M%S%s}'.format(datetime.datetime.utcnow())
+        import datetime
+        date = datetime.datetime.now()
+        registeration_data['unique_id'] = '{:%Y%m%d%H%M%S%s}'.format(date)
         registeration_data['teams'] = []
+        print(registeration_data)
         for team in registeration_data['attributes']['team_list']:
             registeration_data['teams'].append(team['name'])
         return self.database.insert(self.game_type, registeration_data)

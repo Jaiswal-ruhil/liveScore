@@ -130,6 +130,7 @@ class Server():
         import datetime
         from pytz import timezone
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        print(game_info)
         game_type = game_info['game_type']
         time_zone = timezone("Asia/Kolkata")
         current_date = "{:%d %m %Y}".format(datetime.datetime.now(time_zone))

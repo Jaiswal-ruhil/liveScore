@@ -35,6 +35,7 @@ class Server():
 
         import hashlib
         login_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         # check if user exists
         user_record = self.database.get_data('login', {
             'username': login_info['username']})
@@ -60,6 +61,7 @@ class Server():
 
         import hashlib
         login_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         # check if user exists
         user_record = self.database.get_data('login', {
             'username': login_info['username']
@@ -81,6 +83,7 @@ class Server():
         Required json: resources/json/register.json
         Returned json: resources/json/common_response.json """
 
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
         new_game = Game(game_info['game_type'], self.database, self.registry)
         registeration_status = new_game.register(game_info)
@@ -100,6 +103,7 @@ class Server():
         Required json: resources/json/update.json
         Returned json: resources/json/common_response.json """
 
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
         Game = self.registry.get_game(game_info['game_id'])
         result = Game.update(game_info)
@@ -116,6 +120,7 @@ class Server():
         Required json: resources/json/score_board.json
         Returned json: resources/json/score_board_response.json """
 
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
         Game = self.registry.get_game(game_info['game_id'])
         result = Game.score_board()
@@ -129,6 +134,7 @@ class Server():
 
         import datetime
         from pytz import timezone
+        cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
         print(game_info)
         game_type = game_info['game_type']

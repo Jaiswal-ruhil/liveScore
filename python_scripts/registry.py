@@ -22,6 +22,11 @@ class Registry():
 
         self.database.get_data('CRICKET', {})
 
+    def get_game(self, game_type, game_id):
+        """ returns games with ids """
+
+        return self.database.get_data(game_type, {"unique_id": game_id})
+
     def get_list(self, game_type, date):
         """ returns games with ids """
 
@@ -29,6 +34,6 @@ class Registry():
             "_id": 0,
             "attributes": 0
         }
-        list_of_objects = self.database.get_data(game_type, {"date": date}, projection)
-
-        return {'objects': list_of_objects}
+        cursor_object = self.database.get_data_list(game_type, {"date": date}, projection)
+        list_of_objects = list(cursor_object)
+        return list_of_objects

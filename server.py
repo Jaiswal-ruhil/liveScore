@@ -104,9 +104,10 @@ class Server():
         Returned json: resources/json/common_response.json """
 
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
-        game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        Game = self.registry.get_game(game_info['game_id'])
-        result = Game.update(game_info)
+        update_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        game_info = self.registry.get_game(update_info['game_type'], update_info['game_id'])
+        new_game = Game(update_info['game_type'], self.database, self.registry)
+        result = new_game.update(game_info, update_info)
         if result is None:
             return json.dumps({
                 'status': 'failed',
@@ -140,8 +141,7 @@ class Server():
         time_zone = timezone("Asia/Kolkata")
         current_date = "{:%d %m %Y}".format(datetime.datetime.now(time_zone))
         game_list = self.registry.get_list(game_type, current_date)
-        return json.dumps(game_list)
-
+        return json.dumps({"status": "sucess", "list": game_list})
 
 if __name__ == '__main__':
     ''' Setting up the Server with Specified Configuration'''

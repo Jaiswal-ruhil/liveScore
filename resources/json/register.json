@@ -11,11 +11,11 @@
     "teams_list" : [
       {
         "name": "STRING",
-        "playerList": [ "STRINGS" ]
+        "player_list": [ "STRINGS" ]
       },
       {
         "name": "STRING",
-        "playerList": [ "STRINGS" ]
+        "player_list": [ "STRINGS" ]
       }
     ]
   }

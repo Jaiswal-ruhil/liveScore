@@ -37,12 +37,14 @@ class Database():
             projection = {'_id': 0}
         return self.db[collection].find_one(querry, projection)
 
-    def get_game(self, game_id):
-        """ Find comic details for specified comic id """
+    def get_data_list(self, collection, querry, projection=None):
+        """ from the collection it returns the data"""
 
-        return self.db[collection].find_one({"id": int(game_id)})
+        if projection is None:
+            projection = {'_id': 0}
+        return self.db[collection].find(querry, projection)
 
-    def update(self, string, phrase=True, limit=10, skip=0):
+    def update(self, collection, selector, updates):
         """ Find the string in the Database """
 
-        #update here or remove and store
+        return self.db[collection].update(selector, updates)

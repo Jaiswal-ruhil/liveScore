@@ -56,3 +56,11 @@ update_json = {
 update_url = "http://localhost:5050/update_game"
 update_test = requests.post(update_url, json.dumps(update_json))
 print(update_test.text)
+
+score_board_json = {
+  "game_id": "201603181558441458296924",
+  "game_type": "CRICKET",
+ }
+score_board_url = "http://localhost:5050/score_board"
+score_board_test = requests.post(score_board_url, json.dumps(score_board_json))
+print(score_board_test.text)

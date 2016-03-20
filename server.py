@@ -123,9 +123,9 @@ class Server():
 
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        Game = self.registry.get_game(game_info['game_id'])
-        result = Game.score_board()
-        return json.dumps(result)
+        new_game = Game(game_info['game_type'], self.database, self.registry)
+        result = new_game.score_board(game_info['game_type'], game_info['game_id'])
+        return json.dumps({"status": "sucess", "board": result})
 
     @cherrypy.expose
     def get_game_list(self):

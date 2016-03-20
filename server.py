@@ -85,7 +85,7 @@ class Server():
 
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        new_game = Game(game_info['game_type'], self.database, self.registry)
+        new_game = Game(game_info['game_type'].upper(), self.database, self.registry)
         registeration_status = new_game.register(game_info)
         if registeration_status is None:
             return json.dumps({
@@ -136,7 +136,7 @@ class Server():
         from pytz import timezone
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        game_type = game_info['game_type']
+        game_type = game_info['game_type'].upper()
         time_zone = timezone("Asia/Kolkata")
         current_date = "{:%d %m %Y}".format(datetime.datetime.now(time_zone))
         game_list = self.registry.get_list(game_type, current_date)

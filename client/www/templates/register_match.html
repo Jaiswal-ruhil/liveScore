@@ -5,11 +5,11 @@
   		<form ng-submit="submitData()" name="submitForm">
 	  		<label class="item item-input">
 	  			<span class="input-label">Team 1 Name: </span>
-	  			<input type="text" placeholder="Reva Team 1" ng-model="match_details.attributes.teamsList[0].name" required>
+	  			<input type="text" placeholder="Reva Team 1" ng-model="match_details.attributes.team_list[0].name" required>
 			</label>
 			<label class="item item-input">
 	  			<span class="input-label">Team 2 Name: </span>
-	  			<input type="text" placeholder="Reva Team 2" ng-model="match_details.attributes.teamsList[1].name" required>
+	  			<input type="text" placeholder="Reva Team 2" ng-model="match_details.attributes.team_list[1].name" required>
 			</label>
 	  		<label class="item item-input">
 	  			<span class="input-label">Number of Overs: </span>
@@ -17,7 +17,7 @@
 			</label>
 			<label class="item item-input">
 	  			<span class="input-label">Date of Match: </span>
-	  			<input type="date" ng-model="match_details.date" required>
+	  			<input type="date" ng-model="match_details.temp_date" required>
 			</label>
 			<label class="item item-input">
 	  			<span class="input-label">Time: </span>

@@ -83,6 +83,7 @@
     $scope.match_details['date'] = date.ddmmyyyy()
     $http.post(serverUrl, JSON.stringify($scope.match_details), {responseType: 'json'}).success(function(response){
       console.log(response);
+      $scope.showAlert('Match Registered', 'Details sucessfully updated.')
     }).error(function(response){
       $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
     })

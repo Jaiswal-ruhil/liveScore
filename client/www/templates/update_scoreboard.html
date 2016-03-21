@@ -10,14 +10,21 @@
             <div class="item input-label">
                 Match List for Today:
             </div>
-            <select ng-options="match as match.title for match in matchList track by match.id"  ng-model="score.currentMatch"  ng-change="updateMatch()">
+            <select ng-options="match as match.description for match in matchList track by match.unique_id"  ng-model="score.currentMatchData"  ng-change="updateMatch(true)">
             </select>
           </label>
       </div>
-      <div class="list" ng-show="score.currentMatch">
+      <label class="item item-input item-divider item-select" ng-show="score.currentMatch">
+        <div class="item input-label">
+            Select Batting Team:
+        </div>
+        <select ng-model="score.currentTeam" ng-options="team for team in score[score.currentMatch].team_list">
+        </select>
+      </label>
+      <div class="list" ng-show="score.currentTeam">
         <div class="item card">
           <div class="item item-divider">
-            Update Score: {{currentMatch.runs + increment.runs}}
+            Current Score: {{score[score.currentMatch].current_score}} + Update Runs: {{increment.runs}} = {{score[score.currentMatch].current_score + increment.runs}}
           </div>
           <div class="item item-text-wrap">
             <ion-list>
@@ -29,9 +36,9 @@
             </ion-list>
           </div>
         </div>
-        <div class="item card">
+<!--         <div class="item card">
           <div class="item item-divider">
-            Update Extras: {{currentMatch.extras + increment.extras}}
+            Update Extras: {{score[score.currentMatch].extras + increment.extras}}
           </div>
           <div class="item item-text-wrap row">
             <div fs-counter value="increment.extras"
@@ -40,10 +47,10 @@
               data-addclass="col"
               data-editable></div>
           </div>
-        </div>
+        </div> -->
         <div class="item card">
           <div class="item item-divider">
-            Update Players Out: {{currentMatch.wickets + increment.wickets}}
+            Current Wickets: {{score[score.currentMatch].current_wickets}} + Update Wickets: {{increment.wickets}} = {{score[score.currentMatch].current_wickets + increment.wickets}}
           </div>
           <div class="item item-text-wrap row">
             <div fs-counter value="increment.wickets"

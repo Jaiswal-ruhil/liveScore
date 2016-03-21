@@ -1,6 +1,7 @@
 
 {
   "game_id": "Number",
+  "game_type": "STRING",
   "team_name": "STRING",
   "increment_score_player": "NUMBER/OBJECT",
   "increment_score_extra": "NUMBER/OBJECT",

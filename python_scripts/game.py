@@ -20,7 +20,6 @@ class Game():
 
         self.game_type = game_type
         self.database = database
-        self.update = game_interactions.update[game_type]
 
     def register(self, registeration_data):
         """ stores the registeration data on the database """
@@ -29,25 +28,44 @@ class Game():
         date = datetime.datetime.now()
         registeration_data['unique_id'] = '{:%Y%m%d%H%M%S%s}'.format(date)
         registeration_data['teams'] = []
-        print(registeration_data)
         for team in registeration_data['attributes']['team_list']:
             registeration_data['teams'].append(team['name'])
         return self.database.insert(self.game_type, registeration_data)
 
-    def update(self, game_data):
+    def update(self, game_info, update_data):
         """ updates the database with incoming data based on the game """
 
-        return self.update[game_type](self.Database, game_data)
+        score = update_data["increment_score_player"]+update_data["increment_score_extra"]
+        wickets = update_data["increment_wicket"]
+        ball = 0
+        game_info["batting_team"] = update_data["team_name"]
+        team_list = game_info['attributes']['team_list']
+        for team in team_list:
+            if(team["name"] == update_data["team_name"]):
+                team['score'] = team['score']+int(score) if "score" in team else 0
+                team['wickets'] = team['wickets']+int(score) if "wickets" in team else 0
+                team['ball'] = team['ball']+int(score) if "ball" in team else 0
 
-    def score_board(self):
+        selector = {"unique_id": game_info["unique_id"]}
+        game_type = game_info["game_type"]
+        return self.database.update(game_type, selector, game_info)
+
+    def score_board(self, game_type, game_id):
         """ return the score board for the game """
 
-        self.database_id = self.update[game_type](self.Database, game_data)
-        data = self.database.get_data({'_id': database_id}, {"_id": 0})
-        if self.database_id is None:
-            return {
-                'status': 'failed',
-                'message': 'could not make a entry in data base'}
-        return {
-            'status': 'sucess',
-            'message': 'game is registered in database', 'data': data}
+        board = {
+          "game_id": game_id,
+          "batting_team": "",
+          "overs_completed": "",
+          "current_socre": "",
+          "current_wickets": ""
+        }
+        data = self.database.get_data(game_type, {"unique_id": game_id})
+        board["batting_team"] = data["batting_team"]
+        team_list = data['attributes']['team_list']
+        for team in team_list:
+            if(team["name"] == data["batting_team"]):
+                board['overs_completed'] = str(int(team['ball']/6))+"."+str(team['ball']%6)
+                board['current_socre'] = team['score']
+                board['current_wickets'] = team['wickets']
+        return board

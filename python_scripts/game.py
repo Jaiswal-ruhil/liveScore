@@ -30,6 +30,13 @@ class Game():
         registeration_data['teams'] = []
         for team in registeration_data['attributes']['team_list']:
             registeration_data['teams'].append(team['name'])
+        registeration_data['batting_team'] = registeration_data['teams'][0]
+        team_list = registeration_data['attributes']['team_list']
+        for team in team_list:
+            team['score'] = 0
+            team['wickets'] = 0
+            team['ball'] = 0
+
         return self.database.insert(self.game_type, registeration_data)
 
     def update(self, game_info, update_data):
@@ -38,7 +45,6 @@ class Game():
         score = update_data["increment_score_player"]+update_data["increment_score_extra"]
         wickets = update_data["increment_wicket"]
         ball = 0
-        game_info["batting_team"] = update_data["team_name"]
         team_list = game_info['attributes']['team_list']
         for team in team_list:
             if(team["name"] == update_data["team_name"]):
@@ -54,7 +60,7 @@ class Game():
         """ return the score board for the game """
 
         board = {
-          "game_id": game_id,
+          "unique_id": game_id,
           "batting_team": "",
           "overs_completed": "",
           "current_socre": "",
@@ -63,6 +69,7 @@ class Game():
         data = self.database.get_data(game_type, {"unique_id": game_id})
         board["batting_team"] = data["batting_team"]
         team_list = data['attributes']['team_list']
+        board['team_list'] = data['teams']
         for team in team_list:
             if(team["name"] == data["batting_team"]):
                 board['overs_completed'] = str(int(team['ball']/6))+"."+str(team['ball']%6)

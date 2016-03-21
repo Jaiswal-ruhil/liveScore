@@ -1,11 +1,20 @@
 <ion-view view-title="Cricket">
-    <ion-content>
-        <ion-refresher
-            pulling-text="Pull to refresh..."
-            on-refresh="refreshMatchDetails(true)">
-        </ion-refresher>
-        <div ng-show="showData">
-            <ion-list>
+<ion-content>
+<ion-refresher
+pulling-text="Pull to refresh..."
+on-refresh="refreshMatchDetails(true)">
+</ion-refresher>
+<div class="list">
+  <label class="item item-input item-divider item-select">
+    <div class="item input-label">
+      Match List for Today:
+    </div>
+    <select ng-options="match as match.description for match in matchList track by match.unique_id"  ng-model="score.currentMatchData"  ng-change="updateMatch(true)">
+    </select>
+  </label>
+</div>
+<div ng-show="score.currentMatchData">
+            <!-- <ion-list>
             <div class="card stable-bg">
                <div class="item">
                    Match Details: {{match.date + " " + match.time}} at {{match.venue}}
@@ -45,20 +54,36 @@
                    Team Score: {{match.team_list[1].score}}
                </div>
             </div>
-            </ion-list>
+          </ion-list> -->
+          <div class="list">
+            <div class="item card">
+              <div class="item item-divider">
+                Current Score: {{score[score.currentMatch].current_score}}
+              </div>
+            </div>
+<!--         <div class="item card">
+          <div class="item item-divider">
+            Update Extras: {{score[score.currentMatch].extras + increment.extras}}
+          </div>-->
+          <div class="item card">
+            <div class="item item-divider">
+              Current Wickets: {{score[score.currentMatch].current_wickets}}
+            </div>
+          </div>
         </div>
-        <div ng-hide="showData">
-            <button class="button button-full button-balanced">
-                No Data is Available
-            </button>
+        <div ng-hide="score.currentMatchData">
+          <button class="button button-full button-balanced">
+            No Data is Available
+          </button>
         </div>
-	</ion-content>
-	<div class="bar bar-footer bar-dark">
-	    <div class="title">REVA Live Scores</div> 
-	       <div class="buttons buttons-right"> 
-	        <button class="button button-royal bold button-fab" ng-click="refreshMatchDetails(true)"> 
-	            <i class="icon ion-loop light"></i> 
-	       </button> 
-       </div>
-	</div>
-</ion-view>
+      </div>
+    </ion-content>
+    <div class="bar bar-footer bar-dark">
+     <div class="title">REVA Live Scores</div> 
+     <div class="buttons buttons-right"> 
+       <button class="button button-royal bold button-fab" ng-click="refreshMatchDetails(true)"> 
+         <i class="icon ion-loop light"></i> 
+       </button> 
+     </div>
+   </div>
+ </ion-view>

@@ -38,26 +38,25 @@
     $scope.login();
   };
   $scope.login = function(){
-    var serverUrl = 'http://localhost:5000/validateLogin';
+    var serverUrl = 'http://localhost:5050/login';
     var payload = {
       'username': $scope.loginData.username,
       'password': $scope.loginData.password
     }
-    $http.post(serverUrl, payload).success(function(response) {
-        if(response.status === "VALID"){
+    $http.post(serverUrl, JSON.stringify(payload), {responseType:'json'}).success(function(response) {
+        if(response.message === "valid"){
           $scope.modal.hide()
           $scope.loginData.loginSuccess = true;
         }
-        else if(response.status === 'INVALID'){
+        else if(response.message === 'invalid'){
           $scope.showAlert('Invalid Authentication', 'Invalid Username or Password')
         }
         else{
           $scope.showAlert('Error!', 'Could not login with the provided credentials')
         }
       }).error(function(user, error) {
-      // The login failed. Check error to see why.
-        //$scope.showAlert('No Active Connection', 'Connection to the server is Severed')
-        $scope.loginData.loginSuccess = true;
+        // The login failed. Check error to see why.
+        $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
         $scope.modal.hide();
       });
   };
@@ -68,14 +67,22 @@
 })
 
 .controller('RegisterMatchCtrl', function($scope, $http, $ionicPopup, ionicMaterialInk, $timeout) {
+   Date.prototype.ddmmyyyy = function() {
+     var yyyy = this.getFullYear().toString();
+     var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+     var dd  = this.getDate().toString();
+     return (dd[1]?dd:"0"+dd[0]) + " " + (mm[1]?mm:"0"+mm[0]) + " " + yyyy // padding
+  };
   $scope.sport_list = ['cricket', 'basketball', 'football'];
   $scope.match_details = {
-    "attributes": {"teamsList": [{}, {}]}
+    "attributes": {"team_list": [{}, {}]}
   };
   $scope.submitData = function(){
-    var serverUrl = "http://localhost:5000/newMatch"
-    $http.post(serverUrl, $scope.match_details).success(function(response){
-      console.log($scope.match_details);
+    var serverUrl = "http://localhost:5050/register_game"
+    date = new Date($scope.match_details['temp_date'])
+    $scope.match_details['date'] = date.ddmmyyyy()
+    $http.post(serverUrl, JSON.stringify($scope.match_details), {responseType: 'json'}).success(function(response){
+      console.log(response);
     }).error(function(response){
       $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
     })
@@ -119,37 +126,42 @@
     }, 500);
   };
   $scope.getMatchList = function(){
-    var serverUrl = "http://localhost:5000/getMatchList";
-    $http.get(serverUrl).success(function(response){
-      $scope.matchList = response;
+    var serverUrl = "http://localhost:5050/get_game_list";
+    $http.post(serverUrl, JSON.stringify({'game_type': 'cricket'}), {responseType:'json'}).success(function(response){
+      if(response.list === null){
+        $scope.matchList = []
+      }
+      else{
+        $scope.matchList = response.list;
+      }
     }).error(function(data){
-      //$scope.showAlert('No Active Connection', 'Connection to the server is Severed')
-      $scope.matchList = [
-        {'id': 12, 'title': 'M1'},
-        {'id': 23, 'title': 'M2'}
-      ];
+      $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
     });
   }
-  $scope.updateMatch = function(){
-    var id = $scope.score.currentMatch.id;
+  $scope.updateMatch = function(id){
+    $scope.score.currentMatch = $scope.score.currentMatchData.unique_id;
+    var id = $scope.score.currentMatch;
     if(id !== undefined){
       if($scope.score[id] == undefined){
-        var serverUrl = 'http://localhost:5000/getMatchDetails/%id'
-        serverUrl.replace('%id', id);
+        var serverUrl = 'http://localhost:5050/score_board'
+        var payload = {
+          "game_id": id,
+          "game_type": "CRICKET"
+        }
         $scope.showLoadingScreen();
-        $http.get(serverUrl).success(function(response){
+        $http.post(serverUrl, JSON.stringify(payload), {responseType: 'json'}).success(function(response){
+          response = response.board;
+          response['current_score'] = response['current_socre'];
           $scope.score[id] = response;
-          $scope.currentMatch = response;
+          $scope.score.currentMatch = id;
           $scope.hideLoadingScreen();
       }).error(function(data){
           $scope.hideLoadingScreen();
-          $scope.currentMatch = {'wickets':3, 'runs': 7, 'extras': 12};
-          $scope.score[id] = $scope.currentMatch;
-          //$scope.showAlert('No Active Connection', 'Connection to the server is Severed');
+          $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
         })
       }
       else{
-        $scope.currentMatch = $scope.score[id];
+        $scope.score.currentMatch = id;
         $scope.increment = {
             'wickets': 0,
             'runs': 0,
@@ -159,21 +171,29 @@
     }
   }
   $scope.updateScore = function(){
-    var id = $scope.score.currentMatch.id;
+    var id = $scope.score.currentMatch;
     console.log($scope.increment);
-    var serverUrl = 'http://localhost:5000/submitMatchDetails'
+    var payload = {
+      "game_id":  id,
+      "team_name": $scope.score.currentTeam,
+      "increment_score_player": $scope.increment.runs,
+      "increment_score_extra": $scope.increment.extras,
+      "increment_wicket": $scope.increment.wickets,
+      "game_type": "CRICKET"
+    }
+    var serverUrl = 'http://localhost:5050/update_game'
     $scope.showLoadingScreen();
-    $http.post(serverUrl, $scope.increment).success(function(response){
+    $http.post(serverUrl, payload, {responseType: 'json'}).success(function(response){
       $scope.hideLoadingScreen();
-      $scope.score[id].wickets += $scope.increment.wickets;
-      $scope.score[id].runs += $scope.increment.runs;
-      $scope.score[id].extras += $scope.increment.extras;
+      $scope.score[id].current_wickets += $scope.increment.wickets;
+      $scope.score[id].current_score += $scope.increment.runs;
+      //$scope.score[id]. += $scope.increment.extras;
     }).error(function(data){
       $scope.hideLoadingScreen();
       $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
       $scope.score[id].wickets += $scope.increment.wickets;
       $scope.score[id].runs += $scope.increment.runs;
-      $scope.score[id].extras += $scope.increment.extras;
+      //$scope.score[id].extras += $scope.increment.extras;
     })
   }
   $scope.$watch(
@@ -292,6 +312,7 @@
 .controller('CricketCtrl', function($scope, $http, $ionicPopup, $interval, $ionicLoading, ionicMaterialInk, ionicMaterialMotion, $timeout) {
   $scope.showData = false;
   $scope.match = {};
+  $scope.score = {}
   ionicMaterialInk.displayEffect();
   
   /** Shows the loading screen */
@@ -316,23 +337,47 @@
   };
 
  $scope.intervalPromise = $interval(function(){
-          $scope.refreshMatchDetails(false);
+          $scope.score.currentMatch && $scope.updateMatch(false);
+          //scope.updateScore();
     }, 10000);  
 
-  $scope.refreshMatchDetails = function(useLoadingScreen){
-    var serverUrl = 'http://localhost:5000/getMatchDetails'
-    useLoadingScreen && $scope.showLoadingScreen();
-    $http.get(serverUrl).success(function(response){
-      $scope.$broadcast('scroll.refreshComplete');
-      if(response.status === 'OK'){
-        $scope.match = response.data
+  $scope.getMatchList = function(){
+    var serverUrl = "http://localhost:5050/get_game_list";
+    $http.post(serverUrl, JSON.stringify({'game_type': 'cricket'}), {responseType:'json'}).success(function(response){
+      if(response.list === null){
+        $scope.matchList = []
       }
-      useLoadingScreen && $scope.hideLoadingScreen();
+      else{
+        $scope.matchList = response.list;
+      }
     }).error(function(data){
-      $scope.$broadcast('scroll.refreshComplete');
-      useLoadingScreen && $scope.hideLoadingScreen();
-      useLoadingScreen && $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
-    })
-  };
-  $scope.refreshMatchDetails(true);
+      $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
+    });
+  }
+  $scope.updateMatch = function(useLoadingScreen){
+    $scope.score.currentMatch = $scope.score.currentMatchData.unique_id;
+    var id = $scope.score.currentMatch;
+    useLoadingScreen && $scope.showLoadingScreen();
+    if(id !== undefined){
+        var serverUrl = 'http://localhost:5050/score_board'
+        var payload = {
+          "game_id": id,
+          "game_type": "CRICKET"
+        }
+        $http.post(serverUrl, JSON.stringify(payload), {responseType: 'json'}).success(function(response){
+          $scope.$broadcast('scroll.refreshComplete');
+          response = response.board;
+          response['current_score'] = response['current_socre'];
+          $scope.score[id] = response;
+          $scope.score.currentMatch = id;
+          useLoadingScreen && $scope.hideLoadingScreen();
+      }).error(function(data){
+          $scope.$broadcast('scroll.refreshComplete');
+          useLoadingScreen && $scope.hideLoadingScreen();
+          useLoadingScreen && $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
+      })
+    }
+  }
+  //$scope.refreshMatchDetails(true);
+  $scope.getMatchList(true);
 });

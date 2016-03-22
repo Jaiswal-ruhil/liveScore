@@ -34,6 +34,7 @@ class Game():
         team_list = registeration_data['attributes']['team_list']
         for team in team_list:
             team['score'] = 0
+            team['extra'] = 0
             team['wickets'] = 0
             team['ball'] = 0
 
@@ -42,15 +43,18 @@ class Game():
     def update(self, game_info, update_data):
         """ updates the database with incoming data based on the game """
 
-        score = update_data["increment_score_player"]+update_data["increment_score_extra"]
-        wickets = update_data["increment_wicket"]
-        ball = 0
+        game_info["batting_team"] = update_data['team_name']
+        score = int(update_data["increment_score_player"])
+        extra = int(update_data["increment_score_extra"])
+        wickets = int(update_data["increment_wicket"])
+        ball = 0 if extra else 1
         team_list = game_info['attributes']['team_list']
         for team in team_list:
             if(team["name"] == update_data["team_name"]):
-                team['score'] = team['score']+int(score) if "score" in team else 0
-                team['wickets'] = team['wickets']+int(score) if "wickets" in team else 0
-                team['ball'] = team['ball']+int(score) if "ball" in team else 0
+                team['score'] += score + extra
+                team['extra'] += extra
+                team['wickets'] += wickets
+                team['ball'] += ball
 
         selector = {"unique_id": game_info["unique_id"]}
         game_type = game_info["game_type"]
@@ -72,7 +76,8 @@ class Game():
         board['team_list'] = data['teams']
         for team in team_list:
             if(team["name"] == data["batting_team"]):
-                board['overs_completed'] = str(int(team['ball']/6))+"."+str(team['ball']%6)
+                board['overs_completed'] = str(int(team['ball']/6))+"."+str(team['ball'] % 6)
                 board['current_socre'] = team['score']
+                board['extra_score'] = team['extra']
                 board['current_wickets'] = team['wickets']
         return board

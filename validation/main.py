@@ -14,7 +14,7 @@ login_test = requests.post(login_url, json.dumps(login_json))
 print(login_test.text)
 
 register_json = {
-  "date": "20 03 2016",
+  "date": "22 03 2016",
   "time": "8:30",
   "venue": "zombiland",
   "description": "the game",
@@ -46,11 +46,11 @@ get_list_test = requests.post(get_list_url, json.dumps(get_list_json))
 print(get_list_test.text)
 
 update_json = {
-  "game_id": "201603181558441458296924",
+  "game_id": "201603220649171458609557",
   "game_type": "CRICKET",
   "team_name": "102",
   "increment_score_player": "1",
-  "increment_score_extra": "1",
+  "increment_score_extra": "0",
   "increment_wicket": "0"
 }
 update_url = "http://localhost:5050/update_game"
@@ -58,7 +58,7 @@ update_test = requests.post(update_url, json.dumps(update_json))
 print(update_test.text)
 
 score_board_json = {
-  "game_id": "201603181558441458296924",
+  "game_id": "201603220649171458609557",
   "game_type": "CRICKET",
  }
 score_board_url = "http://localhost:5050/score_board"

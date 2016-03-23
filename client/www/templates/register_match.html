@@ -1,61 +1,11 @@
-<ion-view view-title="Register Match">
-  <ion-content>
-  	<div ng-show="loginData.loginSuccess">
-  		<h1>Register Match</h1>
-  		<form ng-submit="submitData()" name="submitForm">
-	  		<label class="item item-input">
-	  			<span class="input-label">Team 1 Name: </span>
-	  			<input type="text" placeholder="Reva Team 1" ng-model="match_details.attributes.team_list[0].name" required>
-			</label>
-			<label class="item item-input">
-	  			<span class="input-label">Team 2 Name: </span>
-	  			<input type="text" placeholder="Reva Team 2" ng-model="match_details.attributes.team_list[1].name" required>
-			</label>
-	  		<label class="item item-input">
-	  			<span class="input-label">Number of Overs: </span>
-	  			<input type="number" placeholder="20" ng-model="match_details.attributes.overs" required>
-			</label>
-			<label class="item item-input">
-	  			<span class="input-label">Date of Match: </span>
-	  			<input type="date" ng-model="match_details.temp_date" required>
-			</label>
-			<label class="item item-input">
-	  			<span class="input-label">Time: </span>
-	  			<input type="text" placeholder="12:30 PM" ng-model="match_details.time" required>
-			</label>
-			<label class="item item-input">
-	  			<span class="input-label">Venue: </span>
-	  			<input type="text" placeholder="Reva Grounds" ng-model="match_details.venue" required>
-			</label>
-			<label class="item item-input">
-	  			<span class="input-label">Description: </span>
-	  			<input type="text" placeholder="Description" ng-model="match_details.description" required>
-			</label>
-			<div class="list">
-				<label class="item item-input item-select">
-	    			<div class="input-label">
-			      		Game Type
-	    			</div>
-	    			<select ng-model="match_details.game_type" required>
-	      				<option ng-repeat="sport in sport_list">{{sport}}</option>
-	    			</select>
-	  			</label>
-			</div>
-			<button type="submit" class="button button-block button-balanced" ng-disabled="!submitForm.$valid">
-  				Submit
-			</button>
-			<button type="reset" class="button button-block button-assertive">
-  				Reset
-			</button>
-			<button type="button" ng-click="logout()" class="button button-block button-dark">
-  				Logout
-			</button>
-	    </form>
-  	</div>
-  	<div ng-hide="loginData.loginSuccess">
-    	<button class="button button-full button-balanced" ng-click="openLogin()">
-        	Login
-    	</button>
-  	</div>
-  </ion-content>
-</ion-view>
+<ion-tabs class="tabs-striped tabs-top tabs-icon-top">
+    <ion-tab title="Cricket" icon-on="ion-archive" icon-off="ion-archive" ui-sref="app.member.register_match.cricket">
+      <ion-nav-view name="register_match_cricket"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Basketball" icon-on="ion-archive" icon-off="ion-archive" ui-sref="app.member.register_match.basketball">
+      <ion-nav-view name="register_match_basketball"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Football" icon-on="ion-archive" icon-off="ion-archive" ui-sref="app.member.register_match.football">
+      <ion-nav-view name="register_match_football"></ion-nav-view>
+    </ion-tab>
+</ion-tabs>

@@ -88,7 +88,38 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'Fi
       url: '/register_match',
       views: {
         'register_match': {
-          templateUrl: 'templates/register_match.html',
+          templateUrl: 'templates/register_match.html'
+        }
+      }
+    })
+
+    .state('app.member.register_match.cricket', {
+      url: '/register_match/cricket',
+      views: {
+        'register_match_cricket': {
+          templateUrl: 'templates/register_match_cricket.html',
+          controller: 'RegisterMatchCtrl'
+        }
+      }
+    })
+
+
+    .state('app.member.register_match.football', {
+      url: '/register_match/football',
+      views: {
+        'register_match_football': {
+          templateUrl: 'templates/register_match_football.html',
+          controller: 'RegisterMatchCtrl'
+        }
+      }
+    })
+
+
+    .state('app.member.register_match.basketball', {
+      url: '/register_match/basketball',
+      views: {
+        'register_match_basketball': {
+          templateUrl: 'templates/register_match_basketball.html',
           controller: 'RegisterMatchCtrl'
         }
       }

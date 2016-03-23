@@ -66,14 +66,13 @@
   }
 })
 
-.controller('RegisterMatchCtrl', function($scope, $http, $ionicPopup, ionicMaterialInk, $timeout) {
+.controller('RegisterCricketMatchCtrl', function($scope, $http, $ionicPopup, ionicMaterialInk, $timeout) {
    Date.prototype.ddmmyyyy = function() {
      var yyyy = this.getFullYear().toString();
      var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
      var dd  = this.getDate().toString();
      return (dd[1]?dd:"0"+dd[0]) + " " + (mm[1]?mm:"0"+mm[0]) + " " + yyyy // padding
   };
-  $scope.sport_list = ['cricket', 'basketball', 'football'];
   $scope.match_details = {
     "attributes": {"team_list": [{}, {}]}
   };
@@ -81,6 +80,75 @@
     var serverUrl = "http://localhost:5050/register_game"
     date = new Date($scope.match_details['temp_date'])
     $scope.match_details['date'] = date.ddmmyyyy()
+    $scope.match_details['game_type'] = 'CRICKET';
+    $http.post(serverUrl, JSON.stringify($scope.match_details), {responseType: 'json'}).success(function(response){
+      console.log(response);
+      $scope.showAlert('Match Registered', 'Details sucessfully updated.')
+    }).error(function(response){
+      $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
+    })
+  }
+  $scope.showAlert = function(title, msg) {
+    var alertPopup = $ionicPopup.alert({
+      title: title,
+      template: msg
+    });
+    $timeout(function() {
+      // Ionic material animation
+      ionicMaterialInk.displayEffect()
+    }, 500);
+  };
+})
+
+.controller('RegisterFootballMatchCtrl', function($scope, $http, $ionicPopup, ionicMaterialInk, $timeout) {
+   Date.prototype.ddmmyyyy = function() {
+     var yyyy = this.getFullYear().toString();
+     var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+     var dd  = this.getDate().toString();
+     return (dd[1]?dd:"0"+dd[0]) + " " + (mm[1]?mm:"0"+mm[0]) + " " + yyyy // padding
+  };
+  $scope.match_details = {
+    "attributes": {"team_list": [{}, {}]}
+  };
+  $scope.submitData = function(){
+    var serverUrl = "http://localhost:5050/register_game"
+    date = new Date($scope.match_details['temp_date'])
+    $scope.match_details['date'] = date.ddmmyyyy()
+    $scope.match_details['game_type'] = 'FOOTBALL';
+    $http.post(serverUrl, JSON.stringify($scope.match_details), {responseType: 'json'}).success(function(response){
+      console.log(response);
+      $scope.showAlert('Match Registered', 'Details sucessfully updated.')
+    }).error(function(response){
+      $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
+    })
+  }
+  $scope.showAlert = function(title, msg) {
+    var alertPopup = $ionicPopup.alert({
+      title: title,
+      template: msg
+    });
+    $timeout(function() {
+      // Ionic material animation
+      ionicMaterialInk.displayEffect()
+    }, 500);
+  };
+})
+
+.controller('RegisterBasketballMatchCtrl', function($scope, $http, $ionicPopup, ionicMaterialInk, $timeout) {
+   Date.prototype.ddmmyyyy = function() {
+     var yyyy = this.getFullYear().toString();
+     var mm = (this.getMonth()+1).toString(); // getMonth() is zero-based
+     var dd  = this.getDate().toString();
+     return (dd[1]?dd:"0"+dd[0]) + " " + (mm[1]?mm:"0"+mm[0]) + " " + yyyy // padding
+  };
+  $scope.match_details = {
+    "attributes": {"team_list": [{}, {}]}
+  };
+  $scope.submitData = function(){
+    var serverUrl = "http://localhost:5050/register_game"
+    date = new Date($scope.match_details['temp_date'])
+    $scope.match_details['date'] = date.ddmmyyyy()
+    $scope.match_details['game_type'] = 'BASKETBALL';
     $http.post(serverUrl, JSON.stringify($scope.match_details), {responseType: 'json'}).success(function(response){
       console.log(response);
       $scope.showAlert('Match Registered', 'Details sucessfully updated.')

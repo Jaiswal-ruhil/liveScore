@@ -98,7 +98,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'Fi
       views: {
         'register_match_cricket': {
           templateUrl: 'templates/register_match_cricket.html',
-          controller: 'RegisterMatchCtrl'
+          controller: 'RegisterCricketMatchCtrl'
         }
       }
     })
@@ -109,7 +109,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'Fi
       views: {
         'register_match_football': {
           templateUrl: 'templates/register_match_football.html',
-          controller: 'RegisterMatchCtrl'
+          controller: 'RegisterFootballMatchCtrl'
         }
       }
     })
@@ -120,7 +120,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'Fi
       views: {
         'register_match_basketball': {
           templateUrl: 'templates/register_match_basketball.html',
-          controller: 'RegisterMatchCtrl'
+          controller: 'RegisterBasketballMatchCtrl'
         }
       }
     })

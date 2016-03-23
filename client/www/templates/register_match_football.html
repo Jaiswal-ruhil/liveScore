@@ -1,0 +1,50 @@
+<ion-view view-title="Register Football Match">
+  <ion-content>
+  	<div ng-show="loginData.loginSuccess">
+  		<form ng-submit="submitData()" name="submitForm">
+	  		<label class="item item-input">
+	  			<span class="input-label">Team 1 Name: </span>
+	  			<input type="text" placeholder="Reva Team 1" ng-model="match_details.attributes.team_list[0].name" required>
+			</label>
+			<label class="item item-input">
+	  			<span class="input-label">Team 2 Name: </span>
+	  			<input type="text" placeholder="Reva Team 2" ng-model="match_details.attributes.team_list[1].name" required>
+			</label>
+	  		<label class="item item-input">
+	  			<span class="input-label">Duration of Game: </span>
+	  			<input type="number" placeholder="60" ng-model="match_details.attributes.overs" required>
+			</label>
+			<label class="item item-input">
+	  			<span class="input-label">Date of Match: </span>
+	  			<input type="date" ng-model="match_details.temp_date" required>
+			</label>
+			<label class="item item-input">
+	  			<span class="input-label">Time: </span>
+	  			<input type="text" placeholder="12:30 PM" ng-model="match_details.time" required>
+			</label>
+			<label class="item item-input">
+	  			<span class="input-label">Venue: </span>
+	  			<input type="text" placeholder="Reva Grounds" ng-model="match_details.venue" required>
+			</label>
+			<label class="item item-input">
+	  			<span class="input-label">Description: </span>
+	  			<input type="text" placeholder="Description" ng-model="match_details.description" required>
+			</label>
+			<button type="submit" class="button button-block button-balanced" ng-disabled="!submitForm.$valid">
+  				Submit
+			</button>
+			<button type="reset" class="button button-block button-assertive">
+  				Reset
+			</button>
+			<button type="button" ng-click="logout()" class="button button-block button-dark">
+  				Logout
+			</button>
+	    </form>
+  	</div>
+  	<div ng-hide="loginData.loginSuccess">
+    	<button class="button button-full button-balanced" ng-click="openLogin()">
+        	Login
+    	</button>
+  	</div>
+  </ion-content>
+</ion-view>

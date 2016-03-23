@@ -59,7 +59,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'Fi
       views: {
         'update_scoreboard_cricket': {
           templateUrl: 'templates/update_scoreboard_cricket.html',
-          controller: 'UpdateScoreBoardCtrl'
+          controller: 'UpdateCricketScoreBoardCtrl'
         }
       }
     })
@@ -69,7 +69,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'Fi
       views: {
         'update_scoreboard_football': {
           templateUrl: 'templates/update_scoreboard_football.html',
-          controller: 'UpdateScoreBoardCtrl'
+          controller: 'UpdateFootballScoreBoardCtrl'
         }
       }
     })
@@ -79,7 +79,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'Fi
       views: {
         'update_scoreboard_basketball': {
           templateUrl: 'templates/update_scoreboard_basketball.html',
-          controller: 'UpdateScoreBoardCtrl'
+          controller: 'UpdateBasketballScoreBoardCtrl'
         }
       }
     })

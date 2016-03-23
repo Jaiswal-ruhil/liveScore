@@ -50,6 +50,35 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic-material', 'Fi
       views: {
         'update_scoreboard': {
           templateUrl: 'templates/update_scoreboard.html',
+        }
+      }
+    })
+
+    .state('app.member.update_scoreboard.cricket', {
+      url: '/update_scoreboard/cricket',
+      views: {
+        'update_scoreboard_cricket': {
+          templateUrl: 'templates/update_scoreboard_cricket.html',
+          controller: 'UpdateScoreBoardCtrl'
+        }
+      }
+    })
+
+    .state('app.member.update_scoreboard.football', {
+      url: '/update_scoreboard/football',
+      views: {
+        'update_scoreboard_football': {
+          templateUrl: 'templates/update_scoreboard_football.html',
+          controller: 'UpdateScoreBoardCtrl'
+        }
+      }
+    })
+
+    .state('app.member.update_scoreboard.basketball', {
+      url: '/update_scoreboard/basketball',
+      views: {
+        'update_scoreboard_basketball': {
+          templateUrl: 'templates/update_scoreboard_basketball.html',
           controller: 'UpdateScoreBoardCtrl'
         }
       }

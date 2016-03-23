@@ -1,0 +1,78 @@
+<ion-view view-title="Update Cricket Scoreboard">
+  <ion-content>
+  	<div ng-show="loginData.loginSuccess">
+  		<div class="bar bar-header bar-light">
+        <h1 class="title">Select Match List</h1>
+      </div>
+      <form ng-submit="submitData()" name="submitForm">
+      <div class="list">
+        <label class="item item-input item-divider item-select">
+            <div class="item input-label">
+                Match List for Today:
+            </div>
+            <select ng-options="match as match.description for match in matchList track by match.unique_id"  ng-model="score.currentMatchData"  ng-change="updateMatch(true)">
+            </select>
+          </label>
+      </div>
+      <label class="item item-input item-divider item-select" ng-show="score.currentMatch">
+        <div class="item input-label">
+            Select Batting Team:
+        </div>
+        <select ng-model="score.currentTeam" ng-options="team for team in score[score.currentMatch].team_list">
+        </select>
+      </label>
+      <div class="list" ng-show="score.currentTeam">
+        <div class="item card">
+          <div class="item item-divider">
+            Current Score: {{score[score.currentMatch].current_score}} + Update Runs: {{increment.runs}} = {{score[score.currentMatch].current_score + increment.runs}}
+          </div>
+          <div class="item item-text-wrap">
+            <ion-list>
+              <ion-radio ng-model="increment.runs" ng-value="0">0</ion-radio>
+              <ion-radio ng-model="increment.runs" ng-value="1">1</ion-radio>
+              <ion-radio ng-model="increment.runs" ng-value="2">2</ion-radio>
+              <ion-radio ng-model="increment.runs" ng-value="3">3</ion-radio>
+              <ion-radio ng-model="increment.runs" ng-value="4">4</ion-radio>
+              <ion-radio ng-model="increment.runs" ng-value="6">6</ion-radio>
+            </ion-list>
+          </div>
+        </div>
+        <div class="item card">
+          <div class="item item-divider">
+            Update Extras: {{score[score.currentMatch].current_extras + increment.extras}}
+          </div>
+          <div class="item item-text-wrap row">
+            <div fs-counter value="increment.extras"
+              data-min="0"
+              data-step="1"
+              data-addclass="col"
+              data-editable></div>
+          </div>
+        </div>
+        <div class="item card">
+          <div class="item item-divider">
+            Current Wickets: {{score[score.currentMatch].current_wickets}} + Update Wickets: {{increment.wickets}} = {{score[score.currentMatch].current_wickets + increment.wickets}}
+          </div>
+          <div class="item item-text-wrap row">
+            <div fs-counter value="increment.wickets"
+              data-min="0"
+              data-step="1"
+              data-addclass="col"
+              data-editable></div>
+          </div>
+        </div>
+  	 </div>
+     <button class="button button-full button-balanced" ng-click="updateScore()" ng-show="score.currentMatch">
+          Submit
+    </button>
+      <button type="button" ng-click="logout()" class="button button-block button-dark">
+          Logout
+      </button>
+    </div>
+  	<div ng-hide="loginData.loginSuccess">
+    	<button class="button button-full button-balanced" ng-click="openLogin()">
+        	Login
+    	</button>
+  	</div>
+  </ion-content>
+</ion-view>

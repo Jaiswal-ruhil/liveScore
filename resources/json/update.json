@@ -7,3 +7,23 @@
   "increment_score_extra": "NUMBER/OBJECT",
   "increment_wicket": "NUMBER"
 }
+
+// football
+{
+  "game_id": "Number",
+  "game_type": "STRING",
+  "team_name": "STRING",
+  "increment_goal": "NUMBER/OBJECT",
+  "increment_foul": "NUMBER/OBJECT",
+  "increment_bonus": "NUMBER"
+}
+
+// basketball
+{
+  "game_id": "Number",
+  "game_type": "STRING",
+  "team_name": "STRING",
+  "increment_score": "NUMBER/OBJECT",
+  "increment_foul": "NUMBER/OBJECT",
+  "increment_bonus": "NUMBER"
+}

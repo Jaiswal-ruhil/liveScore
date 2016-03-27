@@ -14,7 +14,7 @@ login_test = requests.post(login_url, json.dumps(login_json))
 print(login_test.text)
 
 register_json = {
-  "date": "22 03 2016",
+  "date": "27 03 2016",
   "time": "8:30",
   "venue": "zombiland",
   "description": "the game",
@@ -46,7 +46,7 @@ get_list_test = requests.post(get_list_url, json.dumps(get_list_json))
 print(get_list_test.text)
 
 update_json = {
-  "game_id": "201603220649171458609557",
+  "game_id": "201603270409281459031968",
   "game_type": "CRICKET",
   "team_name": "102",
   "increment_score_player": "1",

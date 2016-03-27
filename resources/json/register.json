@@ -8,7 +8,7 @@
   "game_type": "STRING",
   "attributes": {
     "overs": "NUMBER",
-    "teams_list" : [
+    "team_list" : [
       {
         "name": "STRING",
         "player_list": [ "STRINGS" ]
@@ -16,6 +16,26 @@
       {
         "name": "STRING",
         "player_list": [ "STRINGS" ]
+      }
+    ]
+  }
+}
+
+//football
+{
+  "date": "DATE",
+  "time": "TIME",
+  "venue": "STRING",
+  "description": "STRING/OBJECT",
+
+  "game_type": "STRING",
+  "attributes": {
+    "team_list" : [
+      {
+        "name": "STRING",
+      },
+      {
+        "name": "STRING",
       }
     ]
   }

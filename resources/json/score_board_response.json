@@ -8,3 +8,39 @@
   "extra_score": "NUMBER",
   "current_wickets": "NUMBER"
 }
+
+// football
+{
+  "game_id": "Number",
+  "team_list":[
+      {
+        "name": "STRING",
+        "bonus": "NUMBER",
+        "goals": "NUMBER",
+        "foul": "NUMBER"
+      },
+      {
+        "name": "STRING",
+        "bonus": "NUMBER",
+        "goals": "NUMBER",
+        "foul": "NUMBER"
+      }
+  ]
+}
+
+// basketball
+{
+  "game_id": "Number",
+  "team_list":[
+      {
+        "name": "STRING",
+        "score": "NUMBER",
+        "foul": "NUMBER"
+      },
+      {
+        "name": "STRING",
+        "score": "NUMBER",
+        "foul": "NUMBER"
+      }
+  ]
+}

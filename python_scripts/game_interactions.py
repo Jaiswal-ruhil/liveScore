@@ -20,7 +20,11 @@ def __football_score_board__(database, game_id):
 
     data = database.get_data("football", {"unique_id": game_id}, {
         "unique_id": 1,
-        "attributes": {"team_list": 1}})
+        "attributes.team_list": 1})
+    board = {
+                "unique_id": data['unique_id'],
+                "team_list": data['attributes']['team_list']
+            }
     return board
 
 
@@ -64,7 +68,11 @@ def __basketball_score_board__(database, game_id):
 
     data = database.get_data("basketball", {"unique_id": game_id}, {
         "unique_id": 1,
-        "attributes": {"team_list": 1}})
+        "attributes.team_list": 1})
+    board = {
+                "unique_id": data['unique_id'],
+                "team_list": data['attributes']['team_list']
+            }
     return board
 
 

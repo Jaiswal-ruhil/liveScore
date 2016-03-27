@@ -13,7 +13,7 @@
   "game_id": "Number",
   "game_type": "STRING",
   "team_name": "STRING",
-  "increment_goal": "NUMBER/OBJECT",
+  "increment_goals": "NUMBER/OBJECT",
   "increment_foul": "NUMBER/OBJECT",
   "increment_bonus": "NUMBER"
 }

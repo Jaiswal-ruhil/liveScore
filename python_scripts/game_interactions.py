@@ -1,20 +1,3 @@
-register = {
-    "CRICKET": __register_cricket_board__,
-    "football": __register_football_board__,
-    "basketball": __register_basketball_board__
-}
-score_board = {
-    "CRICKET": __cricket_score_board__,
-    "football": __football_score_board__,
-    "basketball": __basketball_score_board__
-}
-update = {
-    "CRICKET": __update_cricket_board__,
-    "football": __update_football_board__,
-    "basketball": __update_basketball_board__
-}
-
-
 def __football_score_board__(database, game_id):
     """ fetch the data from database using game id and return required data"""
 
@@ -172,3 +155,20 @@ def __update_cricket_board__(database, game_info, update_data):
     selector = {"unique_id": game_info["unique_id"]}
     game_type = game_info["game_type"]
     return database.update(game_type, selector, game_info)
+
+
+register = {
+    "CRICKET": __register_cricket_board__,
+    "football": __register_football_board__,
+    "basketball": __register_basketball_board__
+}
+score_board = {
+    "CRICKET": __cricket_score_board__,
+    "football": __football_score_board__,
+    "basketball": __basketball_score_board__
+}
+update = {
+    "CRICKET": __update_cricket_board__,
+    "football": __update_football_board__,
+    "basketball": __update_basketball_board__
+}

@@ -17,11 +17,6 @@ class Registry():
 
         self.database = database
 
-    def populate(self):
-        """ assigns a unique key to the existind game """
-
-        self.database.get_data('CRICKET', {})
-
     def get_game(self, game_type, game_id):
         """ returns games with ids """
 

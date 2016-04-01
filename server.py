@@ -25,7 +25,6 @@ class Server():
         self.app_url = configuration['app_url']
         self.database = Database(configuration['database_uri'])
         self.registry = Registry(self.database)
-        self.registry.populate()
 
     @cherrypy.expose
     def login(self):
@@ -85,7 +84,8 @@ class Server():
 
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
-        new_game = Game(game_info['game_type'].upper(), self.database, self.registry)
+        game_info['game_type'] = game_info['game_type'].upper()
+        new_game = Game(game_info['game_type'], self.database, self.registry)
         registeration_status = new_game.register(game_info)
         if registeration_status is None:
             return json.dumps({
@@ -105,7 +105,10 @@ class Server():
 
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         update_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        update_info['game_type'] = update_info['game_type'].upper()
         game_info = self.registry.get_game(update_info['game_type'], update_info['game_id'])
+        print(game_info)
+        game_info['game_type'] = game_info['game_type'].upper()
         new_game = Game(update_info['game_type'], self.database, self.registry)
         result = new_game.update(game_info, update_info)
         if result is None:
@@ -123,6 +126,7 @@ class Server():
 
         cherrypy.response.headers["Access-Control-Allow-Origin"] = "*"
         game_info = json.loads(cherrypy.request.body.read().decode('utf-8'))
+        game_info['game_type'] = game_info['game_type'].upper()
         new_game = Game(game_info['game_type'], self.database, self.registry)
         result = new_game.score_board(game_info['game_type'], game_info['game_id'])
         return json.dumps({"status": "sucess", "board": result})

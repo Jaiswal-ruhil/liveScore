@@ -1,9 +1,10 @@
-def __football_score_board__(database, game_id):
+def __FOOTBALL_score_board__(database, game_id):
     """ fetch the data from database using game id and return required data"""
 
-    data = database.get_data("football", {"unique_id": game_id}, {
+    data = database.get_data("FOOTBALL", {"unique_id": game_id}, {
         "unique_id": 1,
         "attributes.team_list": 1})
+    print(data)
     board = {
                 "unique_id": data['unique_id'],
                 "team_list": data['attributes']['team_list']
@@ -11,7 +12,7 @@ def __football_score_board__(database, game_id):
     return board
 
 
-def __register_football_board__(database, registeration_data):
+def __register_FOOTBALL_board__(database, registeration_data):
     """ inserts into the mongo Database and returns the object id
     on sucess and returns null if fails """
 
@@ -26,11 +27,11 @@ def __register_football_board__(database, registeration_data):
         team['goals'] = 0
         team['foul'] = 0
         team['bonus'] = 0
-    return database.insert("football", registeration_data)
+    return database.insert("FOOTBALL", registeration_data)
 
 
-def __update_football_board__(database, game_info, update_data):
-    """ update the cricket game with the new info """
+def __update_FOOTBALL_board__(database, game_info, update_data):
+    """ update the CRICKET game with the new info """
 
     goals = int(update_data["increment_goals"])
     foul = int(update_data["increment_foul"])
@@ -46,10 +47,10 @@ def __update_football_board__(database, game_info, update_data):
     return database.update(game_type, selector, game_info)
 
 
-def __basketball_score_board__(database, game_id):
+def __BASKETBALL_score_board__(database, game_id):
     """ fetch the data from database using game id and return required data"""
 
-    data = database.get_data("basketball", {"unique_id": game_id}, {
+    data = database.get_data("BASKETBALL", {"unique_id": game_id}, {
         "unique_id": 1,
         "attributes.team_list": 1})
     board = {
@@ -59,7 +60,7 @@ def __basketball_score_board__(database, game_id):
     return board
 
 
-def __register_basketball_board__(database, registeration_data):
+def __register_BASKETBALL_board__(database, registeration_data):
     """ inserts into the mongo Database and returns the object id
     on sucess and returns null if fails """
 
@@ -74,11 +75,11 @@ def __register_basketball_board__(database, registeration_data):
         team['score'] = 0
         team['foul'] = 0
         team['bonus'] = 0
-    return database.insert("basketball", registeration_data)
+    return database.insert("BASKETBALL", registeration_data)
 
 
-def __update_basketball_board__(database, game_info, update_data):
-    """ update the cricket game with the new info """
+def __update_BASKETBALL_board__(database, game_info, update_data):
+    """ update the CRICKET game with the new info """
 
     score = int(update_data["increment_score"])
     foul = int(update_data["increment_foul"])
@@ -94,7 +95,7 @@ def __update_basketball_board__(database, game_info, update_data):
     return database.update(game_type, selector, game_info)
 
 
-def __cricket_score_board__(database, game_id):
+def __CRICKET_score_board__(database, game_id):
     """ fetch the data from database using game id and return required data"""
 
     board = {
@@ -117,7 +118,7 @@ def __cricket_score_board__(database, game_id):
     return board
 
 
-def __register_cricket_board__(database, registeration_data):
+def __register_CRICKET_board__(database, registeration_data):
     """ inserts into the mongo Database and returns the object id
     on sucess and returns null if fails """
 
@@ -137,8 +138,8 @@ def __register_cricket_board__(database, registeration_data):
     return database.insert("CRICKET", registeration_data)
 
 
-def __update_cricket_board__(database, game_info, update_data):
-    """ update the cricket game with the new info """
+def __update_CRICKET_board__(database, game_info, update_data):
+    """ update the CRICKET game with the new info """
 
     game_info["batting_team"] = update_data['team_name']
     score = int(update_data["increment_score_player"])
@@ -158,17 +159,17 @@ def __update_cricket_board__(database, game_info, update_data):
 
 
 register = {
-    "CRICKET": __register_cricket_board__,
-    "football": __register_football_board__,
-    "basketball": __register_basketball_board__
+    "CRICKET": __register_CRICKET_board__,
+    "FOOTBALL": __register_FOOTBALL_board__,
+    "BASKETBALL": __register_BASKETBALL_board__
 }
 score_board = {
-    "CRICKET": __cricket_score_board__,
-    "football": __football_score_board__,
-    "basketball": __basketball_score_board__
+    "CRICKET": __CRICKET_score_board__,
+    "FOOTBALL": __FOOTBALL_score_board__,
+    "BASKETBALL": __BASKETBALL_score_board__
 }
 update = {
-    "CRICKET": __update_cricket_board__,
-    "football": __update_football_board__,
-    "basketball": __update_basketball_board__
+    "CRICKET": __update_CRICKET_board__,
+    "FOOTBALL": __update_FOOTBALL_board__,
+    "BASKETBALL": __update_BASKETBALL_board__
 }

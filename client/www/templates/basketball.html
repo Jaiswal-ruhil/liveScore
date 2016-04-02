@@ -4,39 +4,47 @@
             pulling-text="Pull to refresh..."
             on-refresh="refreshMatchDetails(true)">
         </ion-refresher>
+        <div class="list">
+            <label class="item item-input item-divider item-select">
+                <div class="item input-label">
+                    Match List for Today:
+                </div>
+                <select ng-options="match as match.description for match in matchList track by match.unique_id"  ng-model="score.currentMatchData"  ng-change="updateMatch(true)">
+                </select>
+            </label>
+        </div>
         <div ng-show="showData">
             <ion-list>
             <div class="card stable-bg">
     	       <div class="item">
-    	           {{match.team1.title}}
+    	           Team : {{match.team1.name}}
     	       </div>
     	       <div class="item item-divider item-text-wrap">
-    	           {{match.team1.baskets}}
-    	           {{match.team1.fouls}}
+    	           Score : {{match.team1.score}}
     	       </div>
+                <div class="item item-divider item-text-wrap">
+                   Fouls : {{match.team1.foul}}
+               </div>
         	   <div class="item item-divider">
-        	       {{match.team1.status}}
+        	       Bonus : {{match.team1.bonus}}
         	   </div>
         	</div>
         	<div class="card stable-bg">
         	    <div class="item">
-        	       {{match.team2.title}}
+        	       Team : {{match.team2.name}}
         	    </div>
         	    <div class="item item-divider item-text-wrap">
-        	       {{match.team2.baskets}}
-        	       {{match.team2.fouls}}
+        	       Score : {{match.team2.score}}
         	    </div>
+                <div class="item item-divider item-text-wrap">
+                   Fouls : {{match.team2.foul}}
+                </div>
         	    <div class="item item-divider">
-        	       {{match.team2.status}}
+        	       Bonus : {{match.team2.bonus}}
         	    </div>
         	</div>
         	<h3>{{match.time}}</h3>
             </ion-list>
-        </div>
-        <div ng-hide="showData">
-            <button class="button button-full button-balanced">
-                No Data is Available
-            </button>
         </div>
 	</ion-content>
 	<div class="bar bar-footer bar-dark">

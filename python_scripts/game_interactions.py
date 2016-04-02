@@ -115,6 +115,7 @@ def __CRICKET_score_board__(database, game_id):
             board['current_socre'] = team['score']
             board['extra_score'] = team['extra']
             board['current_wickets'] = team['wickets']
+    board['team_list'] = data['attributes']['team_list']
     return board
 
 

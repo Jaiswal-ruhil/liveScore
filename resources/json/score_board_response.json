@@ -6,7 +6,25 @@
   "overs_completed": "FLOAT",
   "current_socre": "NUMBER",
   "extra_score": "NUMBER",
-  "current_wickets": "NUMBER"
+  "current_wickets": "NUMBER",
+  "team_list":[
+      {
+        "name": "STRING",
+        "player_list": ["STRINGS"],
+        "score": "NUMBER",
+        "extra": "NUMBER",
+        "wickets": "NUMBER",
+        "ball": "NUMBER"
+      },
+      {
+        "name": "STRING",
+        "player_list": ["STRINGS"],
+        "score": "NUMBER",
+        "extra": "NUMBER",
+        "wickets": "NUMBER",
+        "ball": "NUMBER"
+      }
+  ]
 }
 
 // football

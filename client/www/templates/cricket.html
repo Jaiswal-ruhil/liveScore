@@ -58,6 +58,11 @@ on-refresh="refreshMatchDetails(true)">
           <div class="list">
             <div class="item card">
               <div class="item item-divider">
+                Batting Team: {{score[score.currentMatch].batting_team}}
+              </div>
+            </div>
+            <div class="item card">
+              <div class="item item-divider">
                 Current Score: {{score[score.currentMatch].current_score}}
               </div>
             </div>
@@ -68,6 +73,11 @@ on-refresh="refreshMatchDetails(true)">
           <div class="item card">
             <div class="item item-divider">
               Current Wickets: {{score[score.currentMatch].current_wickets}}
+            </div>
+          </div>
+          <div class="item card">
+            <div class="item item-divider">
+              Current Extras Score: {{score[score.currentMatch].extra_score}}
             </div>
           </div>
         </div>

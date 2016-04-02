@@ -256,13 +256,15 @@
       $scope.hideLoadingScreen();
       $scope.score[id].current_wickets += $scope.increment.wickets;
       $scope.score[id].current_score += $scope.increment.runs;
-      $scope.score[id].extras += $scope.increment.extras;
+      $scope.score[id].extra_score += $scope.increment.extras;
+      $scope.increment = {
+        'extras': 0,
+        'wickets': 0,
+        'runs': 0
+      }
     }).error(function(data){
       $scope.hideLoadingScreen();
       $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
-      $scope.score[id].wickets += $scope.increment.wickets;
-      $scope.score[id].runs += $scope.increment.runs;
-      $scope.score[id].extras += $scope.increment.extras;
     })
   }
   $scope.$watch(
@@ -278,7 +280,7 @@
   $scope.score = {}
   $scope.increment = {
     'score': 0,
-    'fouls': 0,
+    'foul': 0,
     'bonus': 0,
   }
     /** Shows the loading screen */
@@ -340,35 +342,50 @@
         $scope.increment = {
             'score': 0,
             'bonus': 0,
-            'fouls': 0,
+            'foul': 0,
           }
       }
     }
+  }
+  $scope.updateTeam = function(selectedTeam){
+    if(selectedTeam === undefined || selectedTeam === null){
+      selectedTeam = $scope.score.currentTeam;
+    }
+    var team_list = $scope.score[$scope.score.currentMatch].team_list;
+    for(var i=0;i<team_list.length;i++){
+      if(selectedTeam.name === team_list[i].name){
+        $scope.score.currentTeamId = i;
+        return;
+      }
+    }
+    $scope.showAlert("Team not Found Error!", "Sorry Please inform the developers");
   }
   $scope.updateScore = function(){
     var id = $scope.score.currentMatch;
     console.log($scope.increment);
     var payload = {
       "game_id":  id,
-      "team_name": $scope.score.currentTeam,
+      "team_name": $scope.score.currentTeam.name,
       "increment_score": $scope.increment.score,
       "increment_bonus": $scope.increment.bonus,
-      "increment_fouls": $scope.increment.fouls,
+      "increment_foul": $scope.increment.foul,
       "game_type": "BASKETBALL"
     }
     var serverUrl = 'http://localhost:5050/update_game'
     $scope.showLoadingScreen();
     $http.post(serverUrl, payload, {responseType: 'json'}).success(function(response){
       $scope.hideLoadingScreen();
-      $scope.score[id].current_score += $scope.increment.score;
-      $scope.score[id].current_bonus += $scope.increment.bonus;
-      $scope.score[id].fouls += $scope.increment.fouls;
+      $scope.score[id].team_list[$scope.score.currentTeamId].score += $scope.increment.score;
+      $scope.score[id].team_list[$scope.score.currentTeamId].bonus += $scope.increment.bonus;
+      $scope.score[id].team_list[$scope.score.currentTeamId].foul += $scope.increment.foul;
+      $scope.increment = {
+        'score': 0,
+        'bonus': 0,
+        'foul': 0,
+      }
     }).error(function(data){
       $scope.hideLoadingScreen();
       $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
-      $scope.score[id].score += $scope.increment.score;
-      $scope.score[id].bonus += $scope.increment.bonus;
-      $scope.score[id].fouls += $scope.increment.fouls;
     })
   }
   $scope.$watch(
@@ -384,7 +401,7 @@
   $scope.score = {}
   $scope.increment = {
     'goals': 0,
-    'fouls': 0,
+    'foul': 0,
     'bonus': 0,
   }
     /** Shows the loading screen */
@@ -432,7 +449,6 @@
         $scope.showLoadingScreen();
         $http.post(serverUrl, JSON.stringify(payload), {responseType: 'json'}).success(function(response){
           response = response.board;
-          response['current_score'] = response['current_socre'];
           $scope.score[id] = response;
           $scope.score.currentMatch = id;
           $scope.hideLoadingScreen();
@@ -446,35 +462,50 @@
         $scope.increment = {
             'goal': 0,
             'bonus': 0,
-            'fouls': 0,
+            'foul': 0,
           }
       }
     }
+  }
+  $scope.updateTeam = function(selectedTeam){
+    if(selectedTeam === undefined || selectedTeam === null){
+      selectedTeam = $scope.score.currentTeam;
+    }
+    var team_list = $scope.score[$scope.score.currentMatch].team_list;
+    for(var i=0;i<team_list.length;i++){
+      if(selectedTeam.name === team_list[i].name){
+        $scope.score.currentTeamId = i;
+        return;
+      }
+    }
+    $scope.showAlert("Team not Found Error!", "Sorry Please inform the developers");
   }
   $scope.updateScore = function(){
     var id = $scope.score.currentMatch;
     console.log($scope.increment);
     var payload = {
       "game_id":  id,
-      "team_name": $scope.score.currentTeam,
+      "team_name": $scope.score.currentTeam.name,
       "increment_goals": $scope.increment.goals,
       "increment_bonus": $scope.increment.bonus,
-      "increment_fouls": $scope.increment.fouls,
+      "increment_foul": $scope.increment.foul,
       "game_type": "FOOTBALL"
     }
     var serverUrl = 'http://localhost:5050/update_game'
     $scope.showLoadingScreen();
     $http.post(serverUrl, payload, {responseType: 'json'}).success(function(response){
       $scope.hideLoadingScreen();
-      $scope.score[id].current_goals += $scope.increment.goals;
-      $scope.score[id].current_bonus += $scope.increment.bonus;
-      $scope.score[id].fouls += $scope.increment.fouls;
+      $scope.score[id].team_list[$scope.score.currentTeamId].goals += $scope.increment.goals;
+      $scope.score[id].team_list[$scope.score.currentTeamId].bonus += $scope.increment.bonus;
+      $scope.score[id].team_list[$scope.score.currentTeamId].foul += $scope.increment.foul;
+      $scope.increment = {
+        'goal': 0,
+        'bonus': 0,
+        'foul': 0,
+      }
     }).error(function(data){
       $scope.hideLoadingScreen();
       $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
-      $scope.score[id].goals += $scope.increment.goals;
-      $scope.score[id].bonus += $scope.increment.bonus;
-      $scope.score[id].fouls += $scope.increment.fouls;
     })
   }
   $scope.$watch(
@@ -497,6 +528,7 @@
 .controller('FootballCtrl', function($scope, $http, $ionicPopup, $interval, $ionicLoading, ionicMaterialInk, ionicMaterialMotion, $timeout) {
   $scope.showData = false;
   $scope.match = {};
+  $scope.score = {}
   ionicMaterialInk.displayEffect();
   
   /** Shows the loading screen */
@@ -521,30 +553,58 @@
   };
 
  $scope.intervalPromise = $interval(function(){
-          $scope.refreshMatchDetails(false);
+          $scope.score.currentMatch && $scope.updateMatch(false);
+          //scope.updateScore();
     }, 10000);  
 
-  $scope.refreshMatchDetails = function(useLoadingScreen){
-    var serverUrl = 'http://localhost:5000/getMatchDetails'
-    useLoadingScreen && $scope.showLoadingScreen();
-    $http.get(serverUrl).success(function(response){
-      $scope.$broadcast('scroll.refreshComplete');
-      if(response.status === 'OK'){
-        $scope.match = response.data
+  $scope.getMatchList = function(){
+    var serverUrl = "http://localhost:5050/get_game_list";
+    $http.post(serverUrl, JSON.stringify({'game_type': 'FOOTBALL'}), {responseType:'json'}).success(function(response){
+      if(response.list === null){
+        $scope.matchList = []
       }
-      useLoadingScreen && $scope.hideLoadingScreen();
+      else{
+        $scope.matchList = response.list;
+      }
     }).error(function(data){
-      $scope.$broadcast('scroll.refreshComplete');
-      useLoadingScreen && $scope.hideLoadingScreen();
-      useLoadingScreen && $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
-    })
-  };
-  $scope.refreshMatchDetails(true);
+      $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
+    });
+  }
+  $scope.updateMatch = function(useLoadingScreen){
+    $scope.score.currentMatch = $scope.score.currentMatchData.unique_id;
+    var id = $scope.score.currentMatch;
+    useLoadingScreen && $scope.showLoadingScreen();
+    if(id !== undefined){
+        var serverUrl = 'http://localhost:5050/score_board'
+        var payload = {
+          "game_id": id,
+          "game_type": "FOOTBALL"
+        }
+        $http.post(serverUrl, JSON.stringify(payload), {responseType: 'json'}).success(function(response){
+          $scope.$broadcast('scroll.refreshComplete');
+          response = response.board;
+          $scope.score[id] = response;
+          $scope.score.currentMatch = id;
+          if(response.team_list.length == 2){
+            $scope.match['team1'] = response.team_list[0];
+            $scope.match['team2'] = response.team_list[1];
+            $scope.showData = true;
+          }
+          useLoadingScreen && $scope.hideLoadingScreen();
+      }).error(function(data){
+          $scope.$broadcast('scroll.refreshComplete');
+          useLoadingScreen && $scope.hideLoadingScreen();
+          useLoadingScreen && $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
+      })
+    }
+  }
+  //$scope.refreshMatchDetails(true);
+  $scope.getMatchList(true);
 })
-
 .controller('BasketballCtrl', function($scope, $http, $ionicPopup, $interval, $ionicLoading, ionicMaterialInk, ionicMaterialMotion, $timeout) {
   $scope.showData = false;
   $scope.match = {};
+  $scope.score = {}
   ionicMaterialInk.displayEffect();
   
   /** Shows the loading screen */
@@ -569,25 +629,53 @@
   };
 
  $scope.intervalPromise = $interval(function(){
-          $scope.refreshMatchDetails(false);
+          $scope.score.currentMatch && $scope.updateMatch(false);
+          //scope.updateScore();
     }, 10000);  
 
-  $scope.refreshMatchDetails = function(useLoadingScreen){
-    var serverUrl = 'http://localhost:5000/getMatchDetails'
-    useLoadingScreen && $scope.showLoadingScreen();
-    $http.get(serverUrl).success(function(response){
-      $scope.$broadcast('scroll.refreshComplete');
-      if(response.status === 'OK'){
-        $scope.match = response.data
+  $scope.getMatchList = function(){
+    var serverUrl = "http://localhost:5050/get_game_list";
+    $http.post(serverUrl, JSON.stringify({'game_type': 'BASKETBALL'}), {responseType:'json'}).success(function(response){
+      if(response.list === null){
+        $scope.matchList = []
       }
-      useLoadingScreen && $scope.hideLoadingScreen();
+      else{
+        $scope.matchList = response.list;
+      }
     }).error(function(data){
-      $scope.$broadcast('scroll.refreshComplete');
-      useLoadingScreen && $scope.hideLoadingScreen();
-      useLoadingScreen && $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
-    })
-  };
-  $scope.refreshMatchDetails(true);
+      $scope.showAlert('No Active Connection', 'Connection to the server is Severed')
+    });
+  }
+  $scope.updateMatch = function(useLoadingScreen){
+    $scope.score.currentMatch = $scope.score.currentMatchData.unique_id;
+    var id = $scope.score.currentMatch;
+    useLoadingScreen && $scope.showLoadingScreen();
+    if(id !== undefined){
+        var serverUrl = 'http://localhost:5050/score_board'
+        var payload = {
+          "game_id": id,
+          "game_type": "BASKETBALL"
+        }
+        $http.post(serverUrl, JSON.stringify(payload), {responseType: 'json'}).success(function(response){
+          $scope.$broadcast('scroll.refreshComplete');
+          response = response.board;
+          $scope.score[id] = response;
+          $scope.score.currentMatch = id;
+          if(response.team_list.length == 2){
+            $scope.match['team1'] = response.team_list[0];
+            $scope.match['team2'] = response.team_list[1];
+            $scope.showData = true;
+          }
+          useLoadingScreen && $scope.hideLoadingScreen();
+      }).error(function(data){
+          $scope.$broadcast('scroll.refreshComplete');
+          useLoadingScreen && $scope.hideLoadingScreen();
+          useLoadingScreen && $scope.showAlert('No Active Connection', 'Connection to the server is Severed');
+      })
+    }
+  }
+  //$scope.refreshMatchDetails(true);
+  $scope.getMatchList(true);
 })
 
 .controller('CricketCtrl', function($scope, $http, $ionicPopup, $interval, $ionicLoading, ionicMaterialInk, ionicMaterialMotion, $timeout) {

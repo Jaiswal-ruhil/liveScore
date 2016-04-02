@@ -571,6 +571,7 @@
     });
   }
   $scope.updateMatch = function(useLoadingScreen){
+    $scope.showData = false;
     $scope.score.currentMatch = $scope.score.currentMatchData.unique_id;
     var id = $scope.score.currentMatch;
     useLoadingScreen && $scope.showLoadingScreen();
@@ -647,6 +648,7 @@
     });
   }
   $scope.updateMatch = function(useLoadingScreen){
+    $scope.showData = false;
     $scope.score.currentMatch = $scope.score.currentMatchData.unique_id;
     var id = $scope.score.currentMatch;
     useLoadingScreen && $scope.showLoadingScreen();
@@ -724,6 +726,7 @@
     });
   }
   $scope.updateMatch = function(useLoadingScreen){
+    $scope.showData = false;
     $scope.score.currentMatch = $scope.score.currentMatchData.unique_id;
     var id = $scope.score.currentMatch;
     useLoadingScreen && $scope.showLoadingScreen();
@@ -739,6 +742,11 @@
           response['current_score'] = response['current_socre'];
           $scope.score[id] = response;
           $scope.score.currentMatch = id;
+          if(response.team_list.length == 2){
+            $scope.match['team1'] = response.team_list[0];
+            $scope.match['team2'] = response.team_list[1];
+            $scope.showData = true;
+          }
           useLoadingScreen && $scope.hideLoadingScreen();
       }).error(function(data){
           $scope.$broadcast('scroll.refreshComplete');

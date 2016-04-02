@@ -13,80 +13,47 @@ on-refresh="refreshMatchDetails(true)">
     </select>
   </label>
 </div>
-<div ng-show="score.currentMatchData">
-            <!-- <ion-list>
+        <div ng-show="showData">
+            <ion-list>
             <div class="card stable-bg">
                <div class="item">
-                   Match Details: {{match.date + " " + match.time}} at {{match.venue}}
+                   Team : {{match.team1.name}}
+                   <span ng-show="score[score.currentMatch].batting_team === match.team1.name">[ Batting ]</span>
+               </div>
+                <div class="item item-divider item-text-wrap">
+                   Score : {{match.team1.score}}
                </div>
                <div class="item item-divider item-text-wrap">
-                   No of Overs: {{match.overs}}
-
-                   Innings: {{match.innings}}
+                   Wickets : {{match.team1.wickets}}
+               </div>
+                <div class="item item-divider item-text-wrap">
+                   Extras : {{match.team1.extra}}
                </div>
                <div class="item item-divider">
-                   Batting Team: {{match.team_list[match.active_team].name}}
+                   No of Balls : {{match.team1.ball}}
                </div>
             </div>
             <div class="card stable-bg">
-    	       <div class="item">
-    	           Team Name: {{match.team_list[0].name}}
-    	       </div>
-    	       <div class="item item-divider item-text-wrap">
-    	           No of Wickets Taken: {{match.team_list[0].wickets}}
-
-    	           No of Balls Played: {{match.team_list[0].ball}}
-    	       </div>
-        	   <div class="item item-divider">
-                   Team Score: {{match.team_list[0].score}}
-        	   </div>
-        	</div>
-        	<div class="card stable-bg">
                <div class="item">
-                   Team Name: {{match.team_list[1].name}}
+                   Team : {{match.team2.name}}
+                   <span ng-show="score[score.currentMatch].batting_team === match.team2.name"> Batting</span>
+               </div>
+                <div class="item item-divider item-text-wrap">
+                   Score : {{match.team2.score}}
                </div>
                <div class="item item-divider item-text-wrap">
-                   No of Wickets Taken: {{match.team_list[1].wickets}}
-
-                   No of Balls Played: {{match.team_list[1].ball}}
+                   Wickets : {{match.team2.wickets}}
+               </div>
+                <div class="item item-divider item-text-wrap">
+                   Extras : {{match.team2.extra}}
                </div>
                <div class="item item-divider">
-                   Team Score: {{match.team_list[1].score}}
+                   No of Balls : {{match.team2.ball}}
                </div>
             </div>
-          </ion-list> -->
-          <div class="list">
-            <div class="item card">
-              <div class="item item-divider">
-                Batting Team: {{score[score.currentMatch].batting_team}}
-              </div>
-            </div>
-            <div class="item card">
-              <div class="item item-divider">
-                Current Score: {{score[score.currentMatch].current_score}}
-              </div>
-            </div>
-<!--         <div class="item card">
-          <div class="item item-divider">
-            Update Extras: {{score[score.currentMatch].extras + increment.extras}}
-          </div>-->
-          <div class="item card">
-            <div class="item item-divider">
-              Current Wickets: {{score[score.currentMatch].current_wickets}}
-            </div>
-          </div>
-          <div class="item card">
-            <div class="item item-divider">
-              Current Extras Score: {{score[score.currentMatch].extra_score}}
-            </div>
-          </div>
+            <h3>{{match.time}}</h3>
+            </ion-list>
         </div>
-        <div ng-hide="score.currentMatchData">
-          <button class="button button-full button-balanced">
-            No Data is Available
-          </button>
-        </div>
-      </div>
     </ion-content>
     <div class="bar bar-footer bar-dark">
      <div class="title">REVA Live Scores</div> 

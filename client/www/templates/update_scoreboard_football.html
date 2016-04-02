@@ -18,13 +18,13 @@
         <div class="item input-label">
             Select Team:
         </div>
-        <select ng-model="score.currentTeam" ng-options="team for team in score[score.currentMatch].team_list">
+        <select ng-model="score.currentTeam" ng-options="team.name for team in score[score.currentMatch].team_list" ng-change="updateTeam(team)">
         </select>
       </label>
       <div class="list" ng-show="score.currentTeam">
         <div class="item card">
           <div class="item item-divider">
-            Current Score: {{score[score.currentMatch].current_goals}} + Update Baskets: {{increment.goals}} = {{score[score.currentMatch].current_goals + increment.goals}}
+            Current Score: {{score[score.currentMatch].team_list[score.currentTeamId].goals}} + Update Baskets: {{increment.goals}} = {{score[score.currentMatch].team_list[score.currentTeamId].goals + increment.goals}}
           </div>
           <div class="item item-text-wrap">
             <ion-list>
@@ -35,7 +35,7 @@
         </div>
         <div class="item card">
           <div class="item item-divider">
-            Current Bonus: {{score[score.currentMatch].current_bonus}} + Update Bonus: {{increment.bonus}} = {{score[score.currentMatch].current_bonus + increment.bonus}}
+            Current Bonus: {{score[score.currentMatch].team_list[score.currentTeamId].bonus}} + Update Bonus: {{increment.bonus}} = {{score[score.currentMatch].team_list[score.currentTeamId].bonus + increment.bonus}}
           </div>
           <div class="item item-text-wrap row">
             <div fs-counter value="increment.bonus"
@@ -47,10 +47,10 @@
         </div>
         <div class="item card">
           <div class="item item-divider">
-            Current Fouls: {{score[score.currentMatch].current_fouls}} + Update Fouls: {{increment.fouls}} = {{score[score.currentMatch].current_fouls + increment.fouls}}
+            Current Fouls: {{score[score.currentMatch].team_list[score.currentTeamId].foul}} + Update Fouls: {{increment.foul}} = {{score[score.currentMatch].team_list[score.currentTeamId].foul + increment.foul}}
           </div>
           <div class="item item-text-wrap row">
-            <div fs-counter value="increment.fouls"
+            <div fs-counter value="increment.foul"
               data-min="0"
               data-step="1"
               data-addclass="col"
